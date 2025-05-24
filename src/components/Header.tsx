@@ -36,7 +36,7 @@ export default function AcademicHeader() {
             {tabNames.map((tab) => (
               <Link
                 key={tab}
-                href={tab === "Home" ? "/" : `#${tab.toLowerCase()}`}
+                href={tab === "Home" ? "/" : `/#${tab.toLowerCase()}`}
                 className="relative px-4 py-2 text-sm font-medium text-slate-700 hover:text-[#025C62] transition-all duration-300 rounded-lg hover:bg-slate-50 group"
               >
                 {tab}
