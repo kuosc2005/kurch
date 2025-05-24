@@ -17,8 +17,8 @@ export default function CTA() {
               <span className="block text-white/90">Community</span>
             </h2>
             <p className="max-w-3xl text-white/80 text-lg md:text-xl leading-relaxed mx-auto">
-              Become part of Kathmandu University's vibrant research ecosystem
-              and contribute to knowledge advancement.
+              Become part of Kathmandu University&apos;s vibrant research
+              ecosystem and contribute to knowledge advancement.
             </p>
           </div>
 
