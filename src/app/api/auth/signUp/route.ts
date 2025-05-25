@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import bcrypt from "bcrypt";
 import { createUser, getUserByEmail } from "@/lib/auth/authHelper";
 import { isEmailValid } from "@/lib/helper";
 

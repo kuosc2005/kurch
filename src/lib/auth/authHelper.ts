@@ -1,6 +1,7 @@
-import bcrypt from "bcrypt";
 import { eq } from "drizzle-orm";
-import { db, users } from "@/db/user_schema";
+import { db } from "@/db/schema";
+import { users } from "@/db/user_schema";
+import bcrypt from "bcrypt";
 
 interface User {
   id: string;
@@ -33,7 +34,6 @@ export const validateUserCredentials = async (
 
     //user exists,
     const user = result[0];
-    
 
     if (!user.password_hash) {
       return null;
@@ -104,6 +104,7 @@ export const createUser = async (
         email: userData.email,
         password_hash: hashedPassword,
         profile_pic: userData.profile_pic || null,
+        // created_at: new Date().getTime().toLocaleString(),
         orcid: userData.orcid || null,
       })
       .returning();
