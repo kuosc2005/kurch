@@ -4,21 +4,18 @@ import {
 	text,
 	uuid,
 } from "drizzle-orm/pg-core"
-import postgres from "postgres"
-import { drizzle } from "drizzle-orm/postgres-js"
-
-const connectionString = process.env.AUTH_DRIZZLE_URL || "";
-const pool = postgres(connectionString, { max: 1 })
-
-export const db = drizzle(pool)
 
 export const users = pgTable('user', {
+  // Login 
 	id: uuid('id').primaryKey().defaultRandom(),
 	name: text('name').notNull(),
 	email: text('email').notNull(),
   password_hash: text('password_hash'),
+  // Post Login 
 	profile_pic: text('profile_pic'),
+  is_verified: text('is_verified'),
 	createdAt: timestamp('created_at').defaultNow(),
 	orcid: text('orcid')
+
 })
 
