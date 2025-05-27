@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/RadixButton";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
