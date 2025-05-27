@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/RadixButton";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 
@@ -74,11 +74,15 @@ export default function AcademicHeader() {
             <div className="relative w-6 h-6">
               <Menu
                 size={24}
-                className={`absolute inset-0 transition-all duration-300 ${isMenuOpen ? "rotate-90 opacity-0" : "rotate-0 opacity-100"}`}
+                className={`absolute inset-0 transition-all duration-300 ${
+                  isMenuOpen ? "rotate-90 opacity-0" : "rotate-0 opacity-100"
+                }`}
               />
               <X
                 size={24}
-                className={`absolute inset-0 transition-all duration-300 ${isMenuOpen ? "rotate-0 opacity-100" : "-rotate-90 opacity-0"}`}
+                className={`absolute inset-0 transition-all duration-300 ${
+                  isMenuOpen ? "rotate-0 opacity-100" : "-rotate-90 opacity-0"
+                }`}
               />
             </div>
           </button>
@@ -86,7 +90,9 @@ export default function AcademicHeader() {
 
         {/* Mobile Menu */}
         <div
-          className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${isMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}`}
+          className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${
+            isMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+          }`}
         >
           <div className="px-4 py-6 bg-gradient-to-br from-slate-50 to-white border-t border-slate-100">
             {/* Mobile Navigation */}
