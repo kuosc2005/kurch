@@ -1,9 +1,4 @@
-import {
-	timestamp,
-	pgTable,
-	text,
-	uuid,
-} from "drizzle-orm/pg-core"
+
 import postgres from "postgres"
 import { drizzle } from "drizzle-orm/postgres-js"
 
