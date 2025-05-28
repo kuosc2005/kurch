@@ -39,7 +39,7 @@ export default function LoginPage() {
           placeholder="johndoe@student.ku.edu.np"
           value={formData.email}
           onChange={(e) =>
-            setFormData((prev) => ({ ...prev, username: e.target.value }))
+            setFormData((prev) => ({ ...prev, email: e.target.value }))
           }
           required
         />
@@ -48,7 +48,7 @@ export default function LoginPage() {
           value={formData.password}
           placeholder="********"
           onChange={(e) =>
-            setFormData((prev) => ({ ...prev, username: e.target.value }))
+            setFormData((prev) => ({ ...prev, password: e.target.value }))
           }
           required
         />
@@ -57,7 +57,10 @@ export default function LoginPage() {
           placeholder="Confirm Password"
           value={formData.confirmPassword}
           onChange={(e) =>
-            setFormData((prev) => ({ ...prev, username: e.target.value }))
+            setFormData((prev) => ({
+              ...prev,
+              confirmPassword: e.target.value,
+            }))
           }
           required
         />
