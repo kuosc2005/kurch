@@ -9,10 +9,9 @@ interface User {
   name: string;
   email: string;
   profile_pic?: string | null;
- role?: "user" | "admin";
- createdAt?: Date;
+  role?: "user" | "admin";
+  createdAt?: Date;
 }
-
 
 interface CreateUserData {
   name: string;
@@ -82,10 +81,6 @@ export const getUserByEmail = async (email: string): Promise<User | null> => {
   }
 };
 
-
-
-
-
 export const createUser = async (
   userData: CreateUserData,
 ): Promise<User | null> => {
@@ -151,12 +146,6 @@ export const getUserById = async (id: string): Promise<User | null> => {
   }
 };
 
-
-
-
-
-
-
 export const userExists = async (email: string): Promise<boolean> => {
   try {
     const result = await db
@@ -170,12 +159,16 @@ export const userExists = async (email: string): Promise<boolean> => {
   }
 };
 
-export changeUserPassword = async ( email: string, password: string): Promise<boolean> => {
+export const retrievePasswordHash = async (email: string) => {
   try {
+    const result = await db
+      .select({ password: users.password_hash })
+      .from(users)
+      .where(eq(users.email, email));
 
-    if !userExists(email) {
-      return false;
-    }
-
+    return result[0];
+  } catch (error) {
+    console.error("Error checking if user exists:", error);
+    return null;
   }
-}
+};
