@@ -14,7 +14,7 @@ export default function TextLinkToggle({
   className,
 }: TextLinkToggleProps) {
   return (
-    <div className={`w-[90%] text-center ${className}`}>
+    <div className={`w-full text-center ${className}`}>
       <span className="text-sm text-gray-600 ">
         {prompt ? `${prompt} ` : ""}
         <Link

@@ -9,9 +9,9 @@ interface HeaderProps {
 export default function HeaderText({
   title,
   subtitle,
-  className = "",
-  headerStyle = "text-2xl md:text-3xl font-bold text-gray-900",
-  subtitleStyle = "text-sm text-gray-600",
+  className = "tracking-wide",
+  headerStyle = "text-heading font-bold text-gray-900",
+  subtitleStyle = "text-sm font-bold text-gray-600",
 }: HeaderProps) {
   return (
     <div className={`mb-8 ${className}`}>

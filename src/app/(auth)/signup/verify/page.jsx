@@ -14,7 +14,7 @@ export default function page() {
   };
 
   return (
-    <div>
+    <>
       <HeaderText
         title="Verify Email"
         subtitle="Enter the 6-digit code sent to your email"
@@ -36,6 +36,6 @@ export default function page() {
           <FaArrowRight size={20} />
         </Button>
       </div>
-    </div>
+    </>
   );
 }

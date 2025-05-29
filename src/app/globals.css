@@ -1,5 +1,4 @@
 @import "tailwindcss";
-
 :root {
   --background: #ffffff;
   --foreground: #f5f5f5;
@@ -9,4 +8,60 @@ s body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+@theme {
+  /* Colors */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-primary: #025c62;
+  --color-white: #fff;
+  --color-back: #2b2b2b;
+  --color-muted: #716f74;
+
+  /* Gray color scale */
+  --color-gray-100: #f9f9f9;
+  --color-gray-200: #eaebee;
+  --color-gray-400: #959595;
+  --color-gray-500: #6b6b6b;
+  --color-gray-800: #2b2b2b;
+
+  /* Font sizes */
+  --font-size-heading: 36px;
+  --font-size-subheading: 24px;
+  --font-size-body: 16px;
+  --font-size-small: 14px;
+
+  /* Border radius */
+  --radius-sm2: 2px;
+
+  /* Border width */
+  --border-width-px1: 1px;
+}
+
+@layer utilities {
+  .text-heading {
+    font-size: var(--font-size-heading);
+  }
+
+  .text-subheading {
+    font-size: var(--font-size-subheading);
+  }
+
+  .text-body {
+    font-size: var(--font-size-body);
+  }
+
+  .text-small {
+    font-size: var(--font-size-small);
+  }
+
+  .rounded-sm2 {
+    border-radius: var(--radius-sm2);
+  }
+
+  .border-px1 {
+    border-width: var(--border-width-px1);
+  }
 }
