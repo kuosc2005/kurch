@@ -38,7 +38,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
               <div className="absolute top-1/2 left-[60%] transform -translate-x-1/2 -translate-y-1/2  md:w-[600px] md:h-[600px] 2xl:w-[850px] 2xl:h-[850px] border border-gray-400 rounded-full opacity-40"></div>
             </div>
             {/* Dashboard image */}
-            <div className="relative z-10 flex items-center justify-end left-[80] h-full">
+            <div className="relative z-10 flex items-center justify-end lg:left-[48] 2xl:left-[20] h-full">
               <Image
                 width={768}
                 height={576}
@@ -47,7 +47,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
                 }}
                 src="/auth_image.png"
                 alt="Authentication illustration"
-                className="max-w-full 2xl:max-h-[576px] radius-sm2 lg:max-h-[432px]  object-top-right object-cover"
+                className="max-w-full  2xl:max-h-[669px] radius-sm2 lg:max-h-[432px]  object-top-right object-cover"
               />
             </div>
           </div>
