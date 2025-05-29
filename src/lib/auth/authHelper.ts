@@ -2,6 +2,7 @@ import { eq } from "drizzle-orm";
 import { db } from "@/db/schema";
 import { users } from "@/db/user_schema";
 import bcrypt from "bcrypt";
+import { trackSynchronousPlatformIOAccessInDev } from "next/dist/server/app-render/dynamic-rendering";
 
 interface User {
   id: string;
@@ -171,3 +172,13 @@ export const userExists = async (email: string): Promise<boolean> => {
     return false;
   }
 };
+
+export changeUserPassword = async ( email: string, password: string): Promise<boolean> => {
+  try {
+
+    if !userExists(email) {
+      return false;
+    }
+
+  }
+}
