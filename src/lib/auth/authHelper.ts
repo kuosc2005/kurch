@@ -9,8 +9,8 @@ interface User {
   name: string;
   email: string;
   profile_pic?: string | null;
-  orcid?: string | null;
-  createdAt?: Date | null;
+ role?: "user" | "admin";
+ createdAt?: Date;
 }
 
 
@@ -19,7 +19,8 @@ interface CreateUserData {
   email: string;
   password: string | null;
   profile_pic?: string | null;
-  orcid?: string | null;
+  created_at?: Date;
+  role?: "user" | "admin"; // Default to "user" since user.role does not exist
 }
 
 export const validateUserCredentials = async (
@@ -50,8 +51,7 @@ export const validateUserCredentials = async (
       name: user.name,
       email: user.email,
       profile_pic: user.profile_pic,
-      orcid: user.orcid,
-      createdAt: user.createdAt,
+      role: "user", // Default to "user" since user.role does not exist
     };
   } catch (error) {
     console.error("Error validating user credentials:", error);
@@ -74,8 +74,7 @@ export const getUserByEmail = async (email: string): Promise<User | null> => {
       name: user.name,
       email: user.email,
       profile_pic: user.profile_pic,
-      orcid: user.orcid,
-      createdAt: user.createdAt,
+      createdAt: user.created_at ?? undefined,
     };
   } catch (error) {
     console.error("Error getting user by email:", error);
@@ -105,8 +104,8 @@ export const createUser = async (
         email: userData.email,
         password_hash: hashedPassword,
         profile_pic: userData.profile_pic || null,
+        role: "user", // Default to "user" since user.role does not exist
         // created_at: new Date().getTime().toLocaleString(),
-        orcid: userData.orcid || null,
       })
       .returning();
 
@@ -121,8 +120,7 @@ export const createUser = async (
       name: user.name,
       email: user.email,
       profile_pic: user.profile_pic,
-      orcid: user.orcid,
-      createdAt: user.createdAt,
+      createdAt: user.created_at ?? undefined,
     };
   } catch (error) {
     console.error("Error creating user:", error);
@@ -145,8 +143,7 @@ export const getUserById = async (id: string): Promise<User | null> => {
       name: user.name,
       email: user.email,
       profile_pic: user.profile_pic,
-      orcid: user.orcid,
-      createdAt: user.createdAt,
+      createdAt: user.created_at ?? undefined,
     };
   } catch (error) {
     console.error("Error getting user by ID:", error);

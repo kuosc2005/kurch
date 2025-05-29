@@ -15,7 +15,7 @@ export const users = pgTable('user', {
   // Post Login 
 	profile_pic: text('profile_pic'),
 	created_at: timestamp('created_at').defaultNow(),
-	orcid: text('orcid')
+	role: text('role').default('user').notNull(), // Default to 'user'
 
 })
 
