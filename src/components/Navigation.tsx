@@ -4,18 +4,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  Home,
-  BarChart3,
-  User,
-  FileText,
-  FolderOpen,
-  Users,
-  MessageSquare,
-  Bell,
-  Settings,
-  Menu,
-} from "lucide-react";
+import { BarChart3, User, Settings, Menu } from "lucide-react";
 
 interface AcademicLayoutProps {
   children: React.ReactNode;
@@ -26,14 +15,8 @@ const AcademicLayout: React.FC<AcademicLayoutProps> = ({ children }) => {
   const pathname = usePathname();
 
   const navigation = [
-    { name: "Feed", href: "/", icon: Home },
     { name: "My Dashboard", href: "/dashboard", icon: BarChart3 },
     { name: "Profile", href: "/profile", icon: User },
-    { name: "Publications", href: "/publications", icon: FileText },
-    { name: "Projects", href: "/projects", icon: FolderOpen },
-    { name: "Network", href: "/network", icon: Users },
-    { name: "Messages", href: "/messages", icon: MessageSquare },
-    { name: "Notifications", href: "/notifications", icon: Bell },
     { name: "Settings", href: "/settings", icon: Settings },
   ];
 
