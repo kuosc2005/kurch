@@ -10,7 +10,7 @@ import { getUserByEmail, retrievePasswordHash } from "@/lib/auth/authHelper";
 import bcrypt from "bcrypt";
 import { getToken } from "next-auth/jwt";
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
 
   if (!token || !token.email) {
