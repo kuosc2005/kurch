@@ -1,6 +1,7 @@
 "use client";
 
 import InputField from "../ui/InputField";
+import { Button } from "../ui/RadixButton";
 
 interface ResearchInterestsSectionProps {
   interests: string[];
@@ -48,12 +49,10 @@ export default function ResearchInterestsSection({
           className=""
           onKeyPress={(e) => e.key === "Enter" && onAddInterest()}
         />
-        <button
-          onClick={onAddInterest}
-          className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 font-medium"
-        >
+
+        <Button size="default" onClick={onAddInterest} className="text-white">
           Add
-        </button>
+        </Button>
       </div>
     </div>
   );

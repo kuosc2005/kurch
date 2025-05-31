@@ -5,7 +5,7 @@ import ProfilePicture from "./ProfilePicture";
 import PersonalInfoSection from "./PersonalInfoSection";
 import ResearchInterestsSection from "./ResearchInterestsSection";
 import ExternalLinksSection from "./ExternalLinksSection";
-import Button from "../ui/button";
+import { Button } from "../ui/RadixButton";
 
 export default function ProfileForm() {
   const [formData, setFormData] = useState({
@@ -76,8 +76,12 @@ export default function ProfileForm() {
         {/* Profile Picture and Name Section */}
         <div className="flex flex-col md:flex-row lg:items-start justify-center lg:space-x-6 space-y-6 lg:space-y-0">
           <ProfilePicture>
-            <Button className="my-2">Change</Button>
-            <Button className="my-2">Remove</Button>
+            <Button size="sm" className="my-2 w-full text-white">
+              Change
+            </Button>
+            <Button size="sm" className="my-2 w-full text-white">
+              Remove
+            </Button>
           </ProfilePicture>
 
           {/* Name Fields */}
@@ -128,12 +132,9 @@ export default function ProfileForm() {
 
       {/* Save Button */}
       <div className="mt-8 flex justify-end">
-        <button
-          onClick={handleSave}
-          className="px-6 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 font-medium"
-        >
-          Save Changes
-        </button>
+        <Button size="lg" className="text-white">
+          Save
+        </Button>
       </div>
     </div>
   );

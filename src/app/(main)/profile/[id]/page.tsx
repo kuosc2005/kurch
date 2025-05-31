@@ -60,15 +60,24 @@ function getProfileData(): ProfileData {
   };
 }
 
-export default function ProfilePage() {
+export default async function ProfilePage({ params }) {
+  const { id } = await params;
   const profileData = getProfileData();
+  const isCurrentUser = Number(id) === 0;
 
   return (
     <div className="max-w-7xl mx-auto">
       <div className="space-y-6">
-        <ProfileHeader name={profileData.name} title={profileData.title} />
+        <ProfileHeader
+          name={profileData.name}
+          title={profileData.title}
+          isCurrentUser={isCurrentUser}
+        />
 
-        <ProfileContent profileData={profileData} />
+        <ProfileContent
+          profileData={profileData}
+          isCurrentUser={isCurrentUser}
+        />
       </div>
     </div>
   );

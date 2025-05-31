@@ -1,43 +1,9 @@
-"use client";
-
-import { useState } from "react";
-import {
-  ArrowLeft,
-  Heart,
-  Eye,
-  Share,
-  Github,
-  ExternalLink,
-} from "lucide-react";
+import { ArrowLeft, Eye } from "lucide-react";
 import Link from "next/link";
-
-interface Collaborator {
-  name: string;
-  role: string;
-  email: string;
-  avatar: string;
-}
-
-interface Project {
-  id: string;
-  title: string;
-  description: string;
-  tags: string[];
-  collaborators: Collaborator[];
-  updatedAt: string;
-  semester: string;
-  fieldOfStudy: string;
-  technologies: string[];
-  views: number;
-  forks: number;
-  likes: number;
-  shares: number;
-  overview: string;
-  categories: string[];
-}
+import { ActionButtons } from "@/components/projects/ActionButtons";
 
 // Mock data - in real app this would come from API based on [id]
-const mockProject: Project = {
+const mockProject: ProjectDetails = {
   id: "1",
   title: "Radiology Tagging System",
   description: "An annotation Platform for radiologists",
@@ -83,11 +49,9 @@ const mockProject: Project = {
 };
 
 export default function ProjectDetailPage() {
-  const [isLiked, setIsLiked] = useState(false);
-
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 py-6">
+    <div className="max-w-7xl mx-auto">
+      <div className="space-y-6">
         {/* Back Button */}
         <Link
           href="/projects"
@@ -120,39 +84,7 @@ export default function ProjectDetailPage() {
             </div>
 
             {/* Action Buttons */}
-            <div className="flex items-center gap-3">
-              <button
-                onClick={() => setIsLiked(!isLiked)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
-                  isLiked
-                    ? "bg-red-50 text-red-600"
-                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                }`}
-              >
-                <Heart className={`w-4 h-4 ${isLiked ? "fill-current" : ""}`} />
-                {mockProject.likes}
-              </button>
-
-              <button className="flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-600 hover:bg-gray-200 rounded-lg transition-colors">
-                <Eye className="w-4 h-4" />
-                {mockProject.views}
-              </button>
-
-              <button className="flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-600 hover:bg-gray-200 rounded-lg transition-colors">
-                <Share className="w-4 h-4" />
-                Share
-              </button>
-
-              <button className="flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-600 hover:bg-gray-200 rounded-lg transition-colors">
-                <Github className="w-4 h-4" />
-                GitHub
-              </button>
-
-              <button className="flex items-center gap-2 px-4 py-2 bg-teal-600 text-white hover:bg-teal-700 rounded-lg transition-colors">
-                <ExternalLink className="w-4 h-4" />
-                Live Demo
-              </button>
-            </div>
+            <ActionButtons project={mockProject} />
           </div>
 
           {/* Categories */}
