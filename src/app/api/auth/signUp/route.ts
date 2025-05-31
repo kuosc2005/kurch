@@ -3,8 +3,11 @@ import { createUser, getUserByEmail } from "@/lib/auth/authHelper";
 import { isEmailValid } from "@/lib/helper";
 
 export async function POST(req: Request) {
-  const body = await req.json();
-  const { email, password, name } = body;
+  try {
+     const body = await req.json();
+     console.log(body);
+  const { email, password, username:name } = body;
+  
 
   //check if all fields are provided by user or not
   if (!name || !email || !password) {
@@ -38,5 +41,23 @@ export async function POST(req: Request) {
     email,
     password,
   });
-  return NextResponse.json({ message: "User created" }, { status: 201 });
+
+  console.log(newUser);
+  if (!newUser) {
+    return NextResponse.json(
+      { message: "Failed to create user" },
+      { status: 500 },
+    );
+  }
+
+
+  return NextResponse.json({ message: "User created",data:newUser }, { status: 201 });
+  } catch (error) {
+    console.error("Error in signUp route:", error);
+    return NextResponse.json(
+      { message: "Internal server error" },
+      { status: 500 },
+    );
+    
+  }
 }

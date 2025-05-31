@@ -98,7 +98,6 @@ export const createUser = async (
         name: userData.name,
         email: userData.email,
         password_hash: hashedPassword,
-        profile_pic: userData.profile_pic || null,
         role: "user", // Default to "user" since user.role does not exist
         // created_at: new Date().getTime().toLocaleString(),
       })

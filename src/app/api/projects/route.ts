@@ -2,12 +2,12 @@ import { randomUUID } from "crypto";
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/db/schema';
 import { getToken } from 'next-auth/jwt';
+import { project } from "@/db/project_schema";
 
 
 export async function POST(req: Request) {
 
 
-  const token = getToken({ req, secret: process.env.JWT_SECRET })
 
   const formData = await req.formData();
 
@@ -30,13 +30,11 @@ export async function POST(req: Request) {
       fileNames.push(file_name);
     }
     const newProject = await db.insert(project).values({
-      user_id: //Token_value ,
       title,
       description,
       abstract,
       keywords,
       visibility,
-      collaborators,
       uploaded_files: fileNames.join(','),
     })
     return NextResponse.json({ message: 'Project created successfully' }, { status: 201 });
