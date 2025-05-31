@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Divider from "@/components/ui/Divider";
 import Button from "@/components/ui/button";
@@ -16,6 +16,14 @@ const VALID_DOMAINS: readonly string[] = [
   "@student.ku.edu.np",
   "@ku.edu.np",
 ] as const;
+
+const Login = ()=>{
+  return <>
+    <Suspense>
+      <LoginPage />
+    </Suspense>
+  </>;
+}
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -185,4 +193,4 @@ const LoginPage: React.FC = () => {
   );
 };
 
-export default LoginPage;
+export default Login;
