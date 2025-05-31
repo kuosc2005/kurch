@@ -9,6 +9,7 @@ import TextLinkToggle from "@/components/ui/TextLinkToggle";
 import SignInWithButton from "@/components/ui/SignInWithButton";
 import axios from "axios";
 import {useRouter} from "next/navigation";
+import { signIn } from "next-auth/react";
 // Types
 interface FormData {
   username: string;
@@ -46,6 +47,21 @@ export default function LoginPage(): JSX.Element {
   });
 
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [isGoogleLoading, setIsGoogleLoading] = useState<boolean>(false);
+  
+   const handleGoogleSignIn = async () => {
+      setIsGoogleLoading(true);
+      try {
+        await signIn("google", { 
+          callbackUrl: "/",
+          redirect: true 
+        });
+      } catch (error) {
+        console.error("Google sign-in error:", error);
+        toast.error("Failed to initiate Google sign-in. Please try again.");
+        setIsGoogleLoading(false);
+      }
+    };
 
   // Password strength validation
   const validatePasswordStrength = (password: string): PasswordValidation => {
@@ -288,7 +304,13 @@ export default function LoginPage(): JSX.Element {
         </button>
         
         <Divider>or</Divider>
-        <SignInWithButton />
+          <SignInWithButton 
+               provider="google" 
+               onClick={handleGoogleSignIn}
+               disabled={isGoogleLoading}
+               className="w-full"
+         
+             />
         <TextLinkToggle
           prompt="Already Have An Account?"
           linkText=" Sign In Here"

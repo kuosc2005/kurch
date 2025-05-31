@@ -1,14 +1,28 @@
 import { FcGoogle } from "react-icons/fc";
 import Button from "@/components/ui/button";
 
-export default function SignInWithButton() {
+interface SignInWithButtonProps {
+  provider: "google";
+  onClick?: () => void;
+  disabled?: boolean;
+  className?: string;
+}
+
+export default function SignInWithButton({
+  provider,
+  onClick,
+  disabled,
+  className = "",
+}: SignInWithButtonProps) {
   return (
     <Button
       type="button"
-      className="w-full bg-white border py-2 px-2 rounded-[2px] focus:outline-none font-medium transition-colors flex items-center justify-center"
+      onClick={onClick}
+      disabled={disabled}
+      className={`bg-white border py-2 px-2 rounded-[2px] focus:outline-none font-medium transition-colors flex items-center justify-center ${className}`}
     >
-      <FcGoogle size={25} className="mr-2" />
-      <span>{""}Sign In With Google</span>
+      {provider === "google" && <FcGoogle size={25} className="mr-2" />}
+      <span>Sign In With Google</span>
     </Button>
   );
 }

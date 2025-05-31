@@ -7,6 +7,7 @@ interface InputProps {
   placeholder?: string;
   required?: boolean;
   className?: string;
+  disabled?: boolean;
 }
 
 export default function InputField({
@@ -16,6 +17,7 @@ export default function InputField({
   placeholder = "",
   required = false,
   className = "",
+  disabled = false,
 }: InputProps) {
   const baseStyles =
     "w-full px-2 py-2 border border-black bg-white rounded-[2px] text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500";
@@ -28,6 +30,7 @@ export default function InputField({
       placeholder={placeholder}
       required={required}
       className={`${baseStyles} ${className} `}
+      disabled={disabled}
     />
   );
 }
