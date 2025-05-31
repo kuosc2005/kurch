@@ -35,7 +35,12 @@ export default function Button({
     `${baseClasses} ${variantClasses[variant]} ${className}`.trim();
 
   return (
-    <button type={type} onClick={onClick} className={combinedClassName} disabled={disabled}>
+    <button
+      type={type}
+      onClick={onClick}
+      className={combinedClassName}
+      disabled={disabled}
+    >
       {children}
     </button>
   );
