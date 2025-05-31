@@ -9,6 +9,7 @@ interface InputProps {
   className?: string;
   onKeyPress?: (e: KeyboardEvent<HTMLInputElement>) => void;
   variant?: "base" | "alt"; // new variant prop
+  disabled?: boolean;
 }
 
 export default function InputField({
@@ -20,6 +21,7 @@ export default function InputField({
   className = "",
   onKeyPress,
   variant = "base", // default to base
+  disabled = false,
 }: InputProps) {
   const baseStyles =
     "w-full px-2 py-2 border border-gray-300 bg-white rounded-[3px] text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500";
@@ -38,6 +40,7 @@ export default function InputField({
       required={required}
       className={`${finalStyles} ${className}`}
       onKeyPress={onKeyPress}
+      disabled={disabled}
     />
   );
 }

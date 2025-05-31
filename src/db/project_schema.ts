@@ -1,4 +1,4 @@
-import { pgTable, serial, text,textArray, integer, boolean, timestamp, PgTimestamp, uuid} from 'drizzle-orm/pg-core';
+import { pgTable, serial, text, integer, boolean, timestamp, PgTimestamp, uuid, PgArray } from 'drizzle-orm/pg-core';
 import { users } from './user_schema';
 
 export const project = pgTable('project', {
@@ -6,7 +6,7 @@ export const project = pgTable('project', {
   user_id: uuid('user_id').references(()=>users.id), 
 	title: text('title').notNull(),
 	description: text('description').notNull(),
-  keywords: textArray('keywords').notNull(),
+  keywords: (text('keywords')).notNull(),
 	abstract: text('abstract').notNull(),
 	uploaded_files: text('uploaded_files'),
 	status: text('role').default('user').notNull(),
