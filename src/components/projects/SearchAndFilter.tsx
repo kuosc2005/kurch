@@ -93,16 +93,16 @@ export default function SearchAndFilter({
               <button
                 onClick={() => {
                   if (chip.type === "semester") {
-                    setSelectedSemesters((prev) =>
-                      prev.filter((s) => s !== chip.value)
+                    setSelectedSemesters(
+                      selectedSemesters.filter((s) => s !== chip.value)
                     );
                   } else if (chip.type === "field") {
-                    setSelectedFields((prev) =>
-                      prev.filter((f) => f !== chip.value)
+                    setSelectedFields(
+                      selectedFields.filter((f) => f !== chip.value)
                     );
                   } else {
-                    setSelectedTechnologies((prev) =>
-                      prev.filter((t) => t !== chip.value)
+                    setSelectedTechnologies(
+                      selectedTechnologies.filter((t) => t !== chip.value)
                     );
                   }
                 }}
