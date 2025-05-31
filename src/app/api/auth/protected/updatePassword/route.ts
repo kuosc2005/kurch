@@ -1,7 +1,4 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import { getServerSession } from "next-auth/next";
 import { eq } from "drizzle-orm";
-import { authOptions } from "@/lib/auth/authOptions";
 import { db } from "@/db/schema";
 import { users } from "@/db/user_schema";
 import { NextRequest, NextResponse } from "next/server";
@@ -13,6 +10,7 @@ import { getToken } from "next-auth/jwt";
 export async function POST(req: NextRequest) {
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
 
+  //unauthorized
   if (!token || !token.email) {
     return NextResponse.json(
       { error: "Authentication required" },
