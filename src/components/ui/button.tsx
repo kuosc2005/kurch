@@ -17,7 +17,7 @@ export default function Button({
 }: ButtonProps) {
   // Base styles shared by all variants
   const baseClasses =
-    "flex items-center justify-center font-medium transition-colors focus:outline-none focus:ring-2 rounded-[2px]";
+    "flex items-center justify-center font-medium transition-colors focus:outline-none focus:ring-2 rounded-[3px]";
 
   // Variants
   const variantClasses: Record<string, string> = {

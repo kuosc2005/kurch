@@ -15,7 +15,7 @@ const AcademicLayout: React.FC<AcademicLayoutProps> = ({ children }) => {
   const pathname = usePathname();
 
   const navigation = [
-    { name: "My Dashboard", href: "/dashboard", icon: BarChart3 },
+    { name: "Projects", href: "/projects", icon: BarChart3 },
     { name: "Profile", href: "/profile", icon: User },
     { name: "Settings", href: "/settings", icon: Settings },
   ];
