@@ -2,7 +2,7 @@ import { randomUUID } from "crypto";
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/db/schema';
 import { getToken } from 'next-auth/jwt';
-import { project } from '@/db/project_schema'; 
+import { project } from "@/db/project_schema";
 
 export async function POST(req: NextRequest) {
   const token = await getToken({ req });
@@ -58,7 +58,6 @@ export async function POST(req: NextRequest) {
       collaborators,
       uploaded_files: fileNames,
     });
-
     return NextResponse.json({ message: 'Project created successfully' }, { status: 201 });
   } catch (err) {
     console.error(err);

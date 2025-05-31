@@ -1,5 +1,4 @@
-import { HiLocationMarker, HiMail, HiUsers } from "react-icons/hi";
-import Button from "@/components/ui/button";
+import { HiLocationMarker, HiMail } from "react-icons/hi";
 
 interface AboutSectionProps {
   university: string;
@@ -60,7 +59,7 @@ export function AboutSection({
         <p className="text-gray-600 text-sm leading-relaxed">{bio}</p>
       </div>
 
-      <div className="flex flex-col sm:flex-row gap-3">
+      {/* <div className="flex flex-col sm:flex-row gap-3">
         <Button variant="small">
           <HiUsers size={16} />
           <span>Follow</span>
@@ -68,7 +67,7 @@ export function AboutSection({
         <Button variant="small">
           <span>Message</span>
         </Button>
-      </div>
+      </div> */}
     </div>
   );
 }

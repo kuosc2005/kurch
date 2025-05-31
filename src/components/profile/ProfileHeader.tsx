@@ -1,12 +1,17 @@
 import { HiShare, HiPencil } from "react-icons/hi";
-import Button from "@/components/ui/button";
+import { Button } from "@/components/ui/RadixButton";
 
 interface ProfileHeaderProps {
   name: string;
   title: string;
+  isCurrentUser: boolean;
 }
 
-export function ProfileHeader({ name, title }: ProfileHeaderProps) {
+export function ProfileHeader({
+  name,
+  title,
+  isCurrentUser = false,
+}: ProfileHeaderProps) {
   return (
     <div className="bg-gradient-to-r from-teal-700 to-teal-600 rounded-xl p-6 sm:p-8 relative overflow-hidden">
       {/* Background Pattern */}
@@ -30,14 +35,24 @@ export function ProfileHeader({ name, title }: ProfileHeaderProps) {
 
       <div className="absolute top-2 right-2 sm:top-4 sm:right-4">
         <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
-          <Button variant="small">
+          <Button
+            size="sm"
+            variant="outline"
+            className="bg-gray-50/30 text-gray-100"
+          >
             <HiShare size={16} />
             <span className="hidden sm:inline">Share</span>
           </Button>
-          <Button variant="small">
-            <HiPencil size={16} />
-            <span className="hidden sm:inline">Edit Profile</span>
-          </Button>
+          {isCurrentUser && (
+            <Button
+              variant="secondary"
+              size="sm"
+              className="bg-white text-primary"
+            >
+              <HiPencil size={16} />
+              <span className="hidden sm:inline">Edit Profile</span>
+            </Button>
+          )}
         </div>
       </div>
     </div>

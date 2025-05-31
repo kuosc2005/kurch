@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { pgTable, serial, text, integer, boolean, timestamp, PgTimestamp, uuid} from 'drizzle-orm/pg-core';
 import { sql } from 'drizzle-orm';
 import { users } from './user_schema';
