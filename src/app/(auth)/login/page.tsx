@@ -17,13 +17,15 @@ const VALID_DOMAINS: readonly string[] = [
   "@ku.edu.np",
 ] as const;
 
-const Login = ()=>{
-  return <>
-    <Suspense>
-      <LoginPage />
-    </Suspense>
-  </>;
-}
+const Login = () => {
+  return (
+    <>
+      <Suspense>
+        <LoginPage />
+      </Suspense>
+    </>
+  );
+};
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -35,32 +37,36 @@ const LoginPage: React.FC = () => {
 
   // Handle URL error parameters (from failed Google sign-in)
   useEffect(() => {
-    const error = searchParams.get('error');
+    const error = searchParams.get("error");
     if (error) {
       switch (error) {
-        case 'ACCOUNT_EXISTS_WITH_PASSWORD':
-          toast.error("An account with this email already exists. Please sign in with your email and password instead.");
+        case "ACCOUNT_EXISTS_WITH_PASSWORD":
+          toast.error(
+            "An account with this email already exists. Please sign in with your email and password instead."
+          );
           break;
-        case 'USER_CREATION_FAILED':
+        case "USER_CREATION_FAILED":
           toast.error("Failed to create your account. Please try again.");
           break;
-        case 'GOOGLE_SIGNIN_ERROR':
+        case "GOOGLE_SIGNIN_ERROR":
           toast.error("Google sign-in failed. Please try again.");
           break;
-        case 'GOOGLE_SIGNIN_FAILED':
-          toast.error("Unable to sign in with Google. Please try again or use email/password.");
+        case "GOOGLE_SIGNIN_FAILED":
+          toast.error(
+            "Unable to sign in with Google. Please try again or use email/password."
+          );
           break;
         default:
           toast.error("Sign-in failed. Please try again.");
       }
       // Clear the error from URL
-      router.replace('/login');
+      router.replace("/login");
     }
   }, [searchParams, router]);
 
   const validateEmailDomain = (email: string): boolean => {
     if (!email) return false;
-    return VALID_DOMAINS.some((domain: string) => 
+    return VALID_DOMAINS.some((domain: string) =>
       email.toLowerCase().endsWith(domain.toLowerCase())
     );
   };
@@ -83,7 +89,7 @@ const LoginPage: React.FC = () => {
       const response = await signIn("credentials", {
         email,
         password,
-        redirect: false, 
+        redirect: false,
       });
 
       console.log("Response from signIn:", response);
@@ -91,27 +97,37 @@ const LoginPage: React.FC = () => {
       if (response?.error) {
         switch (response.error) {
           case "USER_NOT_FOUND":
-            toast.error("No account found with this email address. Please check your email or sign up.");
+            toast.error(
+              "No account found with this email address. Please check your email or sign up."
+            );
             break;
           case "INVALID_PASSWORD":
             toast.error("Incorrect password. Please try again.");
             break;
           case "USE_GOOGLE_SIGNIN":
-            toast.error("This account was created with Google. Please use 'Sign in with Google' instead.");
+            toast.error(
+              "This account was created with Google. Please use 'Sign in with Google' instead."
+            );
             break;
           case "PASSWORD_RESET_REQUIRED":
-            toast.error("Account setup incomplete. Please reset your password or contact support.");
+            toast.error(
+              "Account setup incomplete. Please reset your password or contact support."
+            );
             break;
           case "EMAIL_PASSWORD_REQUIRED":
             toast.error("Please enter both email and password.");
             break;
           case "DATABASE_ERROR":
-            toast.error("Unable to connect to our servers. Please try again later.");
+            toast.error(
+              "Unable to connect to our servers. Please try again later."
+            );
             break;
           case "CredentialsSignin":
           case "AUTHENTICATION_FAILED":
           default:
-            toast.error("Login failed. Please check your credentials and try again.");
+            toast.error(
+              "Login failed. Please check your credentials and try again."
+            );
             break;
         }
         console.error("Login error:", response.error);
@@ -119,7 +135,6 @@ const LoginPage: React.FC = () => {
         toast.success("Login successful!");
         router.push("/dashboard");
       }
-
     } catch (error: any) {
       toast.error("An unexpected error occurred. Please try again.");
       console.error("Login error:", error);
@@ -131,9 +146,9 @@ const LoginPage: React.FC = () => {
   const handleGoogleSignIn = async () => {
     setIsGoogleLoading(true);
     try {
-      await signIn("google", { 
+      await signIn("google", {
         callbackUrl: "/",
-        redirect: true 
+        redirect: true,
       });
     } catch (error) {
       console.error("Google sign-in error:", error);
@@ -145,7 +160,7 @@ const LoginPage: React.FC = () => {
   return (
     <div className="max-w-md mx-auto p-6">
       <HeaderText title="Sign In" subtitle="Welcome back to your account" />
-      
+
       <form onSubmit={handleCredentialsSubmit} className="space-y-4">
         <InputField
           type="email"
@@ -155,7 +170,7 @@ const LoginPage: React.FC = () => {
           required
           disabled={isLoading}
         />
-        
+
         <InputField
           type="password"
           value={password}
@@ -164,26 +179,22 @@ const LoginPage: React.FC = () => {
           disabled={isLoading}
         />
 
-        <Button 
-          type="submit" 
-          disabled={isLoading}
-        >
+        <Button type="submit" disabled={isLoading} className="text-white">
           {isLoading ? "Signing in..." : "Sign In"}
         </Button>
       </form>
-      
-      <Divider > or </Divider>
-      
-      <SignInWithButton 
-        provider="google" 
+
+      <Divider> or </Divider>
+
+      <SignInWithButton
+        provider="google"
         onClick={handleGoogleSignIn}
         disabled={isGoogleLoading}
         className="w-full"
-  
       />
 
       <div className="mt-6 text-center">
-        <TextLinkToggle 
+        <TextLinkToggle
           prompt="Don't have an account? "
           linkText="Sign up"
           to="/signup"

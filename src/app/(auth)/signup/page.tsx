@@ -2,13 +2,13 @@
 import { useState, FormEvent, ChangeEvent, JSX } from "react";
 import { toast } from "sonner";
 import Divider from "@/components/ui/Divider";
-import Button from "@/components/ui/button";
+
 import HeaderText from "@/components/ui/HeaderText";
 import InputField from "@/components/ui/InputField";
 import TextLinkToggle from "@/components/ui/TextLinkToggle";
 import SignInWithButton from "@/components/ui/SignInWithButton";
 import axios from "axios";
-import {useRouter} from "next/navigation";
+import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 // Types
 interface FormData {
@@ -48,20 +48,20 @@ export default function LoginPage(): JSX.Element {
 
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState<boolean>(false);
-  
-   const handleGoogleSignIn = async () => {
-      setIsGoogleLoading(true);
-      try {
-        await signIn("google", { 
-          callbackUrl: "/",
-          redirect: true 
-        });
-      } catch (error) {
-        console.error("Google sign-in error:", error);
-        toast.error("Failed to initiate Google sign-in. Please try again.");
-        setIsGoogleLoading(false);
-      }
-    };
+
+  const handleGoogleSignIn = async () => {
+    setIsGoogleLoading(true);
+    try {
+      await signIn("google", {
+        callbackUrl: "/",
+        redirect: true,
+      });
+    } catch (error) {
+      console.error("Google sign-in error:", error);
+      toast.error("Failed to initiate Google sign-in. Please try again.");
+      setIsGoogleLoading(false);
+    }
+  };
 
   // Password strength validation
   const validatePasswordStrength = (password: string): PasswordValidation => {
@@ -70,9 +70,9 @@ export default function LoginPage(): JSX.Element {
     const hasLowerCase: boolean = /[a-z]/.test(password);
     const hasNumbers: boolean = /\d/.test(password);
     const hasSpecialChar: boolean = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-    
+
     const errors: string[] = [];
-    
+
     if (password.length < minLength) {
       errors.push(`At least ${minLength} characters`);
     }
@@ -88,18 +88,18 @@ export default function LoginPage(): JSX.Element {
     if (!hasSpecialChar) {
       errors.push("One special character");
     }
-    
+
     return {
       isValid: errors.length === 0,
       errors,
-      strength: password.length === 0 ? 0 : Math.max(1, 5 - errors.length)
+      strength: password.length === 0 ? 0 : Math.max(1, 5 - errors.length),
     };
   };
 
   // Email domain validation
   const validateEmailDomain = (email: string): boolean => {
     if (!email) return false;
-    return VALID_DOMAINS.some((domain: string) => 
+    return VALID_DOMAINS.some((domain: string) =>
       email.toLowerCase().endsWith(domain.toLowerCase())
     );
   };
@@ -122,17 +122,23 @@ export default function LoginPage(): JSX.Element {
       toast.error("Email is required");
       isValid = false;
     } else if (!validateEmailDomain(formData.email)) {
-      toast.error(`Email must be from one of these domains: ${VALID_DOMAINS.join(", ")}`);
+      toast.error(
+        `Email must be from one of these domains: ${VALID_DOMAINS.join(", ")}`
+      );
       isValid = false;
     }
 
     // Password validation
-    const passwordValidation: PasswordValidation = validatePasswordStrength(formData.password);
+    const passwordValidation: PasswordValidation = validatePasswordStrength(
+      formData.password
+    );
     if (!formData.password) {
       toast.error("Password is required");
       isValid = false;
     } else if (!passwordValidation.isValid) {
-      toast.error(`Password must have: ${passwordValidation.errors.join(", ")}`);
+      toast.error(
+        `Password must have: ${passwordValidation.errors.join(", ")}`
+      );
       isValid = false;
     }
 
@@ -150,15 +156,14 @@ export default function LoginPage(): JSX.Element {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
 
     setIsSubmitting(true);
-    
+
     try {
-    
       const submissionData: SubmissionData = {
         username: formData.username.trim(),
         email: formData.email.toLowerCase().trim(),
@@ -166,25 +171,24 @@ export default function LoginPage(): JSX.Element {
       };
 
       console.log("Form submission data:", submissionData);
-      
+
       // Here you would make your API call
-      const response = await axios.post('api/auth/signUp', submissionData);
+      const response = await axios.post("api/auth/signUp", submissionData);
       console.log("API response:", response);
 
       if (response.status === 500) {
         const errorData = await response.data;
-        throw new Error(errorData.message || 'Registration failed');
+        throw new Error(errorData.message || "Registration failed");
       }
-      
+
       toast.success(response.data.message || "Registration successful!");
       router.push("/signup/verify");
-      
-      
-    } catch (error:any) {
+    } catch (error: any) {
       console.error("Registration error:", error);
-      
-      
-      const errorMessage = error ? error.response.data.message : "Registration failed. Please try again.";
+
+      const errorMessage = error
+        ? error.response.data.message
+        : "Registration failed. Please try again.";
       toast.error(errorMessage);
     } finally {
       setIsSubmitting(false);
@@ -194,14 +198,22 @@ export default function LoginPage(): JSX.Element {
   // Real-time validation on input change (only for password matching)
   const handleInputChange = (field: keyof FormData, value: string): void => {
     setFormData((prev: FormData) => ({ ...prev, [field]: value }));
-    
+
     // No real-time validation for username or email - only on submit
     // Only track password matching in real-time for UX
   };
 
-  const passwordStrength: PasswordValidation = validatePasswordStrength(formData.password);
-  const passwordsMatch: boolean = !!formData.password && !!formData.confirmPassword && formData.password === formData.confirmPassword;
-  const passwordsDontMatch: boolean = !!formData.password && !!formData.confirmPassword && formData.password !== formData.confirmPassword;
+  const passwordStrength: PasswordValidation = validatePasswordStrength(
+    formData.password
+  );
+  const passwordsMatch: boolean =
+    !!formData.password &&
+    !!formData.confirmPassword &&
+    formData.password === formData.confirmPassword;
+  const passwordsDontMatch: boolean =
+    !!formData.password &&
+    !!formData.confirmPassword &&
+    formData.password !== formData.confirmPassword;
 
   const getStrengthColor = (level: number): string => {
     if (level <= passwordStrength.strength) {
@@ -230,7 +242,7 @@ export default function LoginPage(): JSX.Element {
             type="text"
             placeholder="John Doe"
             value={formData.username}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => 
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
               handleInputChange("username", e.target.value)
             }
             required
@@ -242,7 +254,7 @@ export default function LoginPage(): JSX.Element {
             type="email"
             placeholder="johndoe@student.ku.edu.np"
             value={formData.email}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => 
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
               handleInputChange("email", e.target.value)
             }
             required
@@ -254,7 +266,7 @@ export default function LoginPage(): JSX.Element {
             type="password"
             value={formData.password}
             placeholder="********"
-            onChange={(e: ChangeEvent<HTMLInputElement>) => 
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
               handleInputChange("password", e.target.value)
             }
             required
@@ -281,7 +293,7 @@ export default function LoginPage(): JSX.Element {
             type="password"
             placeholder="Confirm Password"
             value={formData.confirmPassword}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => 
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
               handleInputChange("confirmPassword", e.target.value)
             }
             required
@@ -299,25 +311,27 @@ export default function LoginPage(): JSX.Element {
           )}
         </div>
 
-        <button type="submit" disabled={isSubmitting}  className = "w-full bg-[#025C62] text-white py-2 px-2 rounded-[2px] hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 font-medium transition-colors flex items-center justify-center">
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className="w-full bg-[#025C62] text-white py-2 px-2 rounded-[2px] hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 font-medium transition-colors flex items-center justify-center"
+        >
           {isSubmitting ? "Registering..." : "Register"}
         </button>
-        
+
         <Divider>or</Divider>
-          <SignInWithButton 
-               provider="google" 
-               onClick={handleGoogleSignIn}
-               disabled={isGoogleLoading}
-               className="w-full"
-         
-             />
+        <SignInWithButton
+          provider="google"
+          onClick={handleGoogleSignIn}
+          disabled={isGoogleLoading}
+          className="w-full"
+        />
         <TextLinkToggle
           prompt="Already Have An Account?"
           linkText=" Sign In Here"
           to="/login"
         />
       </form>
-      
     </>
   );
 }
