@@ -4,7 +4,8 @@ interface ButtonProps {
   type?: "button" | "submit" | "reset";
   onClick?: () => void;
   className?: string;
-  children: ReactNode;
+  children: React.ReactNode;
+  disabled?: boolean;
   variant?: "default" | "small" | "outlined";
 }
 
@@ -14,6 +15,7 @@ export default function Button({
   className = "",
   children,
   variant = "default",
+  disabled = false,
 }: ButtonProps) {
   // Base styles shared by all variants
   const baseClasses =
@@ -33,7 +35,7 @@ export default function Button({
     `${baseClasses} ${variantClasses[variant]} ${className}`.trim();
 
   return (
-    <button type={type} onClick={onClick} className={combinedClassName}>
+    <button type={type} onClick={onClick} className={combinedClassName} disabled={disabled}>
       {children}
     </button>
   );
