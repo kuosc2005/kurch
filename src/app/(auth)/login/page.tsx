@@ -175,6 +175,7 @@ const LoginPage: React.FC = () => {
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          placeholder="Password"
           required
           disabled={isLoading}
         />
