@@ -60,11 +60,11 @@ function getProfileData(): ProfileData {
   };
 }
 
-interface Params {
-  id: number;
-}
-
-export default async function ProfilePage({ params }: { params: Params }) {
+export default async function ProfilePage({
+  params,
+}: {
+  params: Promise<{ id: number }>;
+}) {
   const { id } = await params;
   const profileData = getProfileData();
   const isCurrentUser = Number(id) === 0;
