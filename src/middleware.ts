@@ -25,7 +25,9 @@ export async function middleware(req: NextRequest) {
 
   // user route check
   const isUserRoute =
-    req.url.includes("/settings") || req.url.includes("/projects");
+    req.url.includes("/settings") ||
+    req.url.includes("/projects") ||
+    req.url.includes("/profile");
 
   if (isUserRoute) {
     console.log("USER ROUTE HIT", req.url);
@@ -60,6 +62,7 @@ export const config = {
     "/settings/:path*",
     "/projects",
     "/projects/:path*",
+    "/profile/:path*",
     "/admin",
     "/admin/:path*",
   ],
