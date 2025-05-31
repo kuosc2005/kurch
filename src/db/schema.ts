@@ -19,21 +19,34 @@ if (!POSTGRES_USER || !POSTGRES_PASSWORD || !POSTGRES_DB) {
 const connectionString = `postgres://${encodeURIComponent(POSTGRES_USER)}:${encodeURIComponent(POSTGRES_PASSWORD)}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}`;
 
 const pool = postgres(connectionString, { max: 1 });
-export const db = drizzle(pool);
 
-export const users = pgTable('user', {
-  // Login 
-	id: uuid('id').primaryKey().defaultRandom(),
-	name: text('name').notNull(),
-	email: text('email').notNull(),
-  	password_hash: text('password_hash'),
- provider: text('provider').default('credentials'), // Default to 'credentials'
-	profile_pic: text('profile_pic'),
-	created_at: timestamp('created_at').defaultNow(),
-	role: text('role').default('student').notNull(), // Default to 'user'
-	is_verified: boolean('is_verified').default(false).notNull(), // New field for email verification
 
-})
+
+export const users = pgTable("user", {
+	//Login
+
+  id: uuid("id").primaryKey().defaultRandom(),  // Login 
+  name: text("name").notNull(),
+  email: text("email").notNull().unique(),
+  password_hash: text("password_hash"),
+  provider: text("provider").default("credentials"),
+  profile_pic: text("profile_pic"),
+  created_at: timestamp("created_at").defaultNow(),
+  role: text("role").default("student").notNull(),
+  is_verified: boolean("is_verified").default(false).notNull(),
+});
+
+export const email_otps = pgTable("email_otps", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  user_id: uuid("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  otp: text("otp").notNull(),
+  expires_at: timestamp("expires_at").notNull(),
+  created_at: timestamp("created_at").defaultNow(),
+});
+
+
 
 
 export const project = pgTable('project', {
@@ -53,3 +66,10 @@ export const project = pgTable('project', {
 })
 
 
+export const db = drizzle(pool, {
+  schema: {
+    users,
+    email_otps,
+    project,
+  },
+});
