@@ -10,7 +10,7 @@ interface Project {
   description: string;
   tags: string[];
   collaborators: Array<{ name: string; avatar: string }>;
-  updatedAt: string;
+  updated_at: string;
   semester: string;
   fieldOfStudy: string;
   technologies: string[];

@@ -2,14 +2,13 @@
 
 import { Eye, Share, Github, ExternalLink } from "lucide-react";
 
-interface ActionButtonsProps {
-  project: {
-    likes: number;
-    views: number;
-  };
+interface Project {
+  views: number;
+  github_link: string;
+  report_link: string;
 }
 
-export function ActionButtons({ project }: ActionButtonsProps) {
+export function ActionButtons({ project }: { project: Project }) {
   const handleShare = () => {
     if (navigator.share) {
       navigator.share({
@@ -23,12 +22,12 @@ export function ActionButtons({ project }: ActionButtonsProps) {
 
   const handleGitHub = () => {
     // Open GitHub repository
-    window.open("https://github.com", "_blank");
+    window.open(project.github_link, "_blank");
   };
 
   const handleLiveDemo = () => {
     // Open live demo
-    window.open("https://demo.example.com", "_blank");
+    window.open(project.report_link, "_blank");
   };
 
   return (

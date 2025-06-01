@@ -3,6 +3,33 @@ import { ProfileHeader } from "@/components/profile/ProfileHeader";
 import { ProfileContent } from "@/components/profile/ProfileContent";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth/authOptions";
+import { headers } from "next/headers";
+
+async function getRealProfileData(id: string): Promise<ProfileData | null> {
+  try {
+    const headersList = await headers();
+    const host = headersList.get("host");
+
+    const response = await fetch(`http://${host}/api/profile/${id}`, {
+      headers: {
+        Cookie: headersList.get("cookie") || "",
+      },
+      cache: "no-store",
+    });
+
+    if (!response.ok) {
+      if (response.status === 404) {
+        return null;
+      }
+      throw new Error(`Failed to fetch profile: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching profile data:", error);
+    return null;
+  }
+}
 
 // This would typically come from a database or API
 function getProfileData(): ProfileData {
@@ -75,8 +102,25 @@ export default async function ProfilePage({
   const session = await getServerSession(authOptions);
   const isCurrentUser = id === session?.user?.id;
 
+  const realProfileData = await getRealProfileData(id);
+  console.log(realProfileData);
   //The profileData needs to be fetched by passing the id.
   const profileData = getProfileData();
+
+  if (!realProfileData) {
+    return (
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center py-12">
+          <h1 className="text-2xl font-bold text-gray-900 mb-4">
+            Profile Not Found
+          </h1>
+          <p className="text-gray-600">
+            The requested user profile could not be found.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-7xl mx-auto">

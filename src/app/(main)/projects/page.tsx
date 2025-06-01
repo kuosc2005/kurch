@@ -1,58 +1,5 @@
 import ProjectsClient from "@/components/projects/ProjectsClient";
-
-const mockProjects: Project[] = [
-  {
-    id: "1",
-    title: "Radiology Tagging System",
-    description: "An annotation Platform for radiologists",
-    tags: ["React.js", "TypeScript", "PostgreSQL"],
-    collaborators: [{ name: "Ashwin Imma", avatar: "/api/placeholder/32/32" }],
-    updatedAt: "2 days ago",
-    semester: "1st Sem",
-    fieldOfStudy: "Computer Science",
-    technologies: ["React", "TypeScript", "PostgreSQL"],
-  },
-  {
-    id: "2",
-    title: "E-Commerce Platform",
-    description: "Full-stack online shopping platform with payment integration",
-    tags: ["Next.js", "Node.js", "MongoDB"],
-    collaborators: [
-      { name: "John Doe", avatar: "/api/placeholder/32/32" },
-      { name: "Jane Smith", avatar: "/api/placeholder/32/32" },
-    ],
-    updatedAt: "1 week ago",
-    semester: "2nd Sem",
-    fieldOfStudy: "Computer Engineering",
-    technologies: ["Next.js", "Node.js", "MongoDB"],
-  },
-  {
-    id: "3",
-    title: "AI Chatbot Assistant",
-    description: "Intelligent chatbot using natural language processing",
-    tags: ["Python", "TensorFlow", "Flask"],
-    collaborators: [
-      { name: "Sarah Connor", avatar: "/api/placeholder/32/32" },
-      { name: "Alex Turner", avatar: "/api/placeholder/32/32" },
-    ],
-    updatedAt: "3 days ago",
-    semester: "3rd Sem",
-    fieldOfStudy: "Artificial Intelligence",
-    technologies: ["Python", "TensorFlow", "Flask"],
-  },
-  {
-    id: "4",
-    title: "Mobile Banking App",
-    description:
-      "Secure mobile banking application with biometric authentication",
-    tags: ["React Native", "Firebase", "Node.js"],
-    collaborators: [{ name: "David Kim", avatar: "/api/placeholder/32/32" }],
-    updatedAt: "5 days ago",
-    semester: "4th Sem",
-    fieldOfStudy: "Cybersecurity",
-    technologies: ["React Native", "Firebase", "Node.js"],
-  },
-];
+import { headers } from "next/headers";
 
 const filterOptions = {
   semesters: [
@@ -89,7 +36,48 @@ const filterOptions = {
   ],
 };
 
-export default function ProjectsPage() {
+async function getProjectData(): Promise<Project[] | null> {
+  try {
+    const headersList = await headers();
+    const host = headersList.get("host");
+
+    const response = await fetch(`http://${host}/api/projects/`, {
+      headers: {
+        Cookie: headersList.get("cookie") || "",
+      },
+      cache: "no-store",
+    });
+
+    if (!response.ok) {
+      if (response.status === 404) {
+        return null;
+      }
+      throw new Error(`Failed to fetch profile: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching profile data:", error);
+    return null;
+  }
+}
+
+export default async function ProjectsPage() {
+  const data = await getProjectData();
+
+  if (data?.length == 0) {
+    return (
+      <div className="max-w-7xl mx-auto">
+        <div className="space-y-6">
+          {/* Header */}
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">Projects</h1>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-7xl mx-auto">
       <div className="space-y-6">
@@ -105,7 +93,8 @@ export default function ProjectsPage() {
         </div>
 
         {/* Client-side filtering and search */}
-        <ProjectsClient projects={mockProjects} filterOptions={filterOptions} />
+
+        <ProjectsClient projects={data!} filterOptions={filterOptions} />
       </div>
     </div>
   );

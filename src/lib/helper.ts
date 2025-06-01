@@ -1,4 +1,10 @@
-import { db, userProfile, users } from "@/db/schema";
+import {
+  db,
+  project,
+  projectCollaborators,
+  userProfile,
+  users,
+} from "@/db/schema";
 import { ProfileData } from "@/types/profile";
 import { eq } from "drizzle-orm";
 import nodemailer from "nodemailer";
@@ -76,9 +82,8 @@ For assistance, contact kucc@ku.edu.np
   }
 }
 
-
 export async function getUserProfileData(
-  userId: string,
+  userId: string
 ): Promise<ProfileData | null> {
   try {
     const results = await db
@@ -99,7 +104,7 @@ export async function getUserProfileData(
     if (!row) return null;
 
     const researchInterests = row.research_interests
-      ? row.research_interests.split(',').map((s) => s.trim())
+      ? row.research_interests.split(",").map((s) => s.trim())
       : [];
 
     const profileData: ProfileData = {
@@ -122,3 +127,50 @@ export async function getUserProfileData(
   }
 }
 
+export async function getAllProjects() {
+  try {
+    const projects = await db
+      .select({
+        id: project.id,
+        title: project.title,
+        user_id: project.user_id,
+        description: project.description,
+        tags: project.tags,
+        categories: project.categories,
+        technologies: project.technologies,
+        updated_at: project.updated_at,
+        semester: project.semester,
+        field_of_study: project.field_of_study,
+      })
+      .from(project);
+
+    if (!projects || projects.length === 0) {
+      return null;
+    }
+
+    const projectsWithCollaborators = await Promise.all(
+      projects.map(async (proj) => {
+        const tags = JSON.parse(proj.tags);
+        const categories = JSON.parse(proj.categories);
+        const technologies = JSON.parse(proj.technologies);
+
+        const collaborators = await db
+          .select()
+          .from(projectCollaborators)
+          .where(eq(projectCollaborators.project_id, proj.id));
+
+        return {
+          ...proj,
+          tags,
+          categories,
+          technologies,
+          collaborators: collaborators || [],
+        };
+      })
+    );
+
+    return projectsWithCollaborators;
+  } catch (error) {
+    throw error;
+  }
+}
