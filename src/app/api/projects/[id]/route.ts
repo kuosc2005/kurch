@@ -5,14 +5,16 @@ import { db } from "@/db/schema";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const { id: project_id } = await params;
+
     const projects = await db
       .select()
       .from(project)
       .where(eq(project.id, project_id));
+
     const collaborators = await db
       .select({
         id: projectCollaborators.id,
@@ -27,22 +29,22 @@ export async function GET(
     const tags = JSON.parse(projects[0].tags);
     const technologies = JSON.parse(projects[0].technologies);
     const categories = JSON.parse(projects[0].categories);
-
     const formattedData = { ...projects[0], tags, technologies, categories };
+
     return NextResponse.json(
       {
         ...formattedData,
         collaborators,
       },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     return NextResponse.json(
       {
         success: false,
-        message: "Failed to fetch projects.",
+        message: "Failed to fetch project.",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

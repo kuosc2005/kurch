@@ -4,7 +4,7 @@ interface Collaborator {
   name: string;
   role: string;
   email: string;
-  avatar: string;
+  avatar?: string;
 }
 
 interface BaseProject {
@@ -14,7 +14,7 @@ interface BaseProject {
   tags: string[];
   updated_at: string;
   semester: string;
-  fieldOfStudy: string;
+  field_of_study: string;
   technologies: string[];
 }
 

@@ -1,17 +1,5 @@
 import Link from "next/link";
 
-interface Project {
-  id: string;
-  title: string;
-  description: string;
-  tags: string[];
-  collaborators: Array<{ name: string; avatar: string }>;
-  updated_at: string;
-  semester: string;
-  fieldOfStudy: string;
-  technologies: string[];
-}
-
 interface ProjectCardProps {
   project: Project;
 }

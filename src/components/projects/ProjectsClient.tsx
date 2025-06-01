@@ -4,18 +4,6 @@ import { useState } from "react";
 import SearchAndFilter from "./SearchAndFilter";
 import ProjectCard from "./ProjectCard";
 
-interface Project {
-  id: string;
-  title: string;
-  description: string;
-  tags: string[];
-  collaborators: Array<{ name: string; avatar: string }>;
-  updated_at: string;
-  semester: string;
-  fieldOfStudy: string;
-  technologies: string[];
-}
-
 interface FilterOptions {
   semesters: string[];
   fieldsOfStudy: string[];
@@ -47,7 +35,7 @@ export default function ProjectsClient({
       selectedSemesters.includes(project.semester);
     const matchesField =
       selectedFields.length === 0 ||
-      selectedFields.includes(project.fieldOfStudy);
+      selectedFields.includes(project.field_of_study);
     const matchesTech =
       selectedTechnologies.length === 0 ||
       selectedTechnologies.some((tech) => project.technologies.includes(tech));

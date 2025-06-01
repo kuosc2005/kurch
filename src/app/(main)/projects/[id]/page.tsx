@@ -134,7 +134,7 @@ export default async function ProjectDetailPage({
               Uploaded {project?.updated_at}
             </span>
             <span>{project?.semester}</span>
-            <span>{project?.fieldOfStudy}</span>
+            <span>{project?.field_of_study}</span>
           </div>
         </div>
 

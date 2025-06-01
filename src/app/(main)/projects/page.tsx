@@ -1,5 +1,5 @@
 import ProjectsClient from "@/components/projects/ProjectsClient";
-import { headers } from "next/headers";
+import { getAllProjects } from "@/lib/helper";
 
 const filterOptions = {
   semesters: [
@@ -38,26 +38,18 @@ const filterOptions = {
 
 async function getProjectData(): Promise<Project[] | null> {
   try {
-    const headersList = await headers();
-    const host = headersList.get("host");
+    const response = await getAllProjects();
 
-    const response = await fetch(`http://${host}/api/projects/`, {
-      headers: {
-        Cookie: headersList.get("cookie") || "",
-      },
-      cache: "no-store",
+    if (!response) return null;
+    const formattedData = response.map((proj) => {
+      return {
+        ...proj,
+        updated_at: proj.updated_at ? proj.updated_at.toISOString() : "",
+      };
     });
-
-    if (!response.ok) {
-      if (response.status === 404) {
-        return null;
-      }
-      throw new Error(`Failed to fetch profile: ${response.status}`);
-    }
-
-    return await response.json();
+    return formattedData;
   } catch (error) {
-    console.error("Error fetching profile data:", error);
+    console.error("Error fetching projects data:", error);
     return null;
   }
 }
@@ -65,7 +57,7 @@ async function getProjectData(): Promise<Project[] | null> {
 export default async function ProjectsPage() {
   const data = await getProjectData();
 
-  if (data?.length == 0) {
+  if (data?.length == 0 || !data) {
     return (
       <div className="max-w-7xl mx-auto">
         <div className="space-y-6">
