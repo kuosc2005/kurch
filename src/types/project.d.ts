@@ -1,9 +1,10 @@
 // Reusable types
 interface Collaborator {
+  id: string;
   name: string;
   role: string;
   email: string;
-  avatar: string;
+  avatar?: string;
 }
 
 interface BaseProject {
@@ -11,9 +12,9 @@ interface BaseProject {
   title: string;
   description: string;
   tags: string[];
-  updatedAt: string;
+  updated_at: string;
   semester: string;
-  fieldOfStudy: string;
+  field_of_study: string;
   technologies: string[];
 }
 
@@ -29,6 +30,8 @@ interface ProjectDetails extends BaseProject {
   forks: number;
   likes: number;
   shares: number;
-  overview: string;
+  abstract: string;
+  github_link: string;
+  report_link: string;
   categories: string[];
 }

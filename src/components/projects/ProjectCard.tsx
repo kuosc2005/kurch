@@ -1,14 +1,4 @@
-interface Project {
-  id: string;
-  title: string;
-  description: string;
-  tags: string[];
-  collaborators: Array<{ name: string; avatar: string }>;
-  updatedAt: string;
-  semester: string;
-  fieldOfStudy: string;
-  technologies: string[];
-}
+import Link from "next/link";
 
 interface ProjectCardProps {
   project: Project;
@@ -100,9 +90,12 @@ export default function ProjectCard({ project }: ProjectCardProps) {
           </span>
         </div>
 
-        <button className="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-sm font-medium">
+        <Link
+          href={`/projects/${project.id}`}
+          className="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-sm font-medium"
+        >
           View Details
-        </button>
+        </Link>
       </div>
 
       <div className="flex items-center gap-2 text-sm text-gray-500 pt-4 border-t border-gray-100">
@@ -119,7 +112,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
             d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
           />
         </svg>
-        Uploaded {project.updatedAt}
+        Uploaded {new Date(project.updated_at).toLocaleDateString()}
       </div>
     </div>
   );

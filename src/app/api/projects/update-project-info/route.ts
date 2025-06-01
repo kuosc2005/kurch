@@ -1,21 +1,19 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { db } from '@/lib/db';
-import { project } from '@/db/schema/project_schema';
-import { eq } from 'drizzle-orm';
-import { doesUserOwnProject } from '@/lib/auth/authHelper';
+import { NextRequest, NextResponse } from "next/server";
+import { eq } from "drizzle-orm";
+import { doesUserOwnProject } from "@/lib/auth/authHelper";
+import { db, project } from "@/db/schema";
 
-export async function PATCH( // update the project info
+export async function PATCH(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> },
 ) {
+  const { id: projectId } = await params;
 
-  const projectId = params.id;
-
-// THIS REQUIRES user_id and project_id
+  // THIS REQUIRES user_id and project_id
 
   try {
     const body = await req.json(); // fields to update
-    const userId = body.user_id; 
+    const userId = body.user_id;
 
     if (await doesUserOwnProject(userId, projectId)) {
       const updated = await db
@@ -24,15 +22,12 @@ export async function PATCH( // update the project info
         .where(eq(project.id, projectId))
         .returning();
 
-        return NextResponse.json({ success: true, data: updated[0] });
+      return NextResponse.json({ success: true, data: updated[0] });
     }
-
-
-
   } catch (error) {
     return NextResponse.json(
-      { success: false, message: 'Failed to update project.' },
-      { status: 500 }
+      { success: false, message: "Failed to update project." },
+      { status: 500 },
     );
   }
 }
