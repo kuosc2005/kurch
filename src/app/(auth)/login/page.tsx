@@ -133,7 +133,7 @@ const LoginPage: React.FC = () => {
         console.error("Login error:", response.error);
       } else if (response?.ok) {
         toast.success("Login successful!");
-        router.push("/dashboard");
+        router.push("/projects");
       }
     } catch (error: any) {
       toast.error("An unexpected error occurred. Please try again.");

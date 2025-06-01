@@ -12,6 +12,7 @@ import {
   ChevronDown,
 } from "lucide-react";
 import Image from "next/image";
+import { useSession } from "next-auth/react";
 
 interface AcademicLayoutProps {
   children: React.ReactNode;
@@ -21,10 +22,15 @@ const AcademicLayout: React.FC<AcademicLayoutProps> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const pathname = usePathname();
+  const sessionData = useSession();
 
   const navigation = [
     { name: "Projects", href: "/projects", icon: BarChart3 },
-    { name: "Profile", href: "/profile", icon: User },
+    {
+      name: "Profile",
+      href: `/profile/${sessionData.data?.user.id}`,
+      icon: User,
+    },
     { name: "Settings", href: "/settings", icon: Settings },
   ];
 

@@ -1,6 +1,8 @@
 import { ProfileData } from "@/types/profile";
 import { ProfileHeader } from "@/components/profile/ProfileHeader";
 import { ProfileContent } from "@/components/profile/ProfileContent";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth/authOptions";
 
 // This would typically come from a database or API
 function getProfileData(): ProfileData {
@@ -63,11 +65,17 @@ function getProfileData(): ProfileData {
 export default async function ProfilePage({
   params,
 }: {
-  params: Promise<{ id: number }>;
+  params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
+
+  // Check if the id in the url is same as the user's : if yes , only then we allow editing.
+
+  const session = await getServerSession(authOptions);
+  const isCurrentUser = id === session?.user?.id;
+
+  //The profileData needs to be fetched by passing the id.
   const profileData = getProfileData();
-  const isCurrentUser = Number(id) === 0;
 
   return (
     <div className="max-w-7xl mx-auto">
