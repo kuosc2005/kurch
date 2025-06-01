@@ -4,6 +4,7 @@ import { db } from '@/db/schema';
 import { getToken } from 'next-auth/jwt';
 import { project } from "@/db/project_schema";
 
+// Upload handler for posts
 export async function POST(req: NextRequest) {
   const token = await getToken({ req });
 
@@ -53,7 +54,7 @@ export async function POST(req: NextRequest) {
       title,
       description,
       abstract,
-      keywords, 
+      keywords,
       visibility,
       collaborators,
       uploaded_files: fileNames,
@@ -62,5 +63,15 @@ export async function POST(req: NextRequest) {
   } catch (err) {
     console.error(err);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  }
+}
+
+
+export async function GET(req: NextRequest) {
+  try {
+    const projects = await db.select().from(project);
+    return NextResponse.json({ success: true, data: projects }, { status: 200 });
+  } catch (error) {
+    return NextResponse.json({ success: false, message: 'Failed to fetch projects.' }, { status: 500 });
   }
 }
