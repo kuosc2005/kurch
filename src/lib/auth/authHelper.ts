@@ -1,5 +1,6 @@
-import { eq,desc} from "drizzle-orm";
-import { db,users,email_otps } from "@/db/schema";
+import { eq, desc } from "drizzle-orm";
+import { db, users, email_otps, project } from "@/db/schema";
+import { and } from "drizzle-orm";
 import bcrypt from "bcrypt";
 
 interface User {
@@ -389,7 +390,7 @@ export async function saveOTPForUser(email: string, otp: string) {
 }
 
 export async function verifyUser(email: string, otp: string) {
- 
+
   //find userid from users("user") table 
   const user = await db.query.users.findFirst({
     where: eq(users.email, email),
@@ -420,11 +421,30 @@ export async function verifyUser(email: string, otp: string) {
     .set({ is_verified: true })
     .where(eq(users.id, user.id));
 
-    //delete opt since we no longer need it
+  //delete opt since we no longer need it
   await db.delete(email_otps).where(eq(email_otps.user_id, user.id));
 
   //email successfully verified
   return true;
+}
+
+export async function doesUserOwnProject(
+  user_id: string, project_id: string
+) {
+
+  const project_list = await db.select()
+  .from(project).where(
+    and(
+      eq(project.user_id, user_id),
+      eq(project.id, project_id),
+    )
+  ) 
+    .limit(1);
+  if (project_list.length > 0) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 
