@@ -58,6 +58,7 @@ export async function middleware(req: NextRequest) {
 export const config = {
   matcher: [
     "/api/auth/protected/:path*",
+    "/api/profile/:id",
     "/settings",
     "/settings/:path*",
     "/projects",

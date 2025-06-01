@@ -1,11 +1,16 @@
 import { NextResponse } from "next/server";
-import { createUser, generateOtp, getUserByEmail, saveOTPForUser } from "@/lib/auth/authHelper";
+import {
+  createUser,
+  generateOtp,
+  getUserByEmail,
+  saveOTPForUser,
+} from "@/lib/auth/authHelper";
 import { isEmailValid, sendOTPEmail } from "@/lib/helper";
 
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { email, password, username:name } = body;
+    const { email, password, username: name } = body;
 
     // Check if all fields are provided
     if (!name || !email || !password) {
@@ -24,7 +29,6 @@ export async function POST(req: Request) {
       );
     }
 
-
     const existingUser = await getUserByEmail(email);
     if (existingUser) {
       return NextResponse.json(
@@ -33,29 +37,22 @@ export async function POST(req: Request) {
       );
     }
 
-
-
     const newUser = await createUser({
       name,
       email,
       password,
-      
     });
-  
-  if (!newUser) {
-    return NextResponse.json(
-      { message: "Failed to create user" },
-      { status: 500 },
-    );
-  }
 
+    if (!newUser) {
+      return NextResponse.json(
+        { message: "Failed to create user" },
+        { status: 500 },
+      );
+    }
 
-    
+    const otp: string = generateOtp();
+    const result = await sendOTPEmail({ to: email, otp });
 
-  const otp : string  = generateOtp(); 
-  const result = await sendOTPEmail({ to: email, otp })
-
-   
     if (!result.success) {
       console.error("Failed to send OTP email:", result.error);
       return NextResponse.json(
@@ -63,9 +60,8 @@ export async function POST(req: Request) {
         { status: 500 },
       );
     }
-    //otp sent 
+    //otp sent
     await saveOTPForUser(email, otp);
-
 
     return NextResponse.json(
       { message: "User created. OTP sent to your email." },
@@ -79,4 +75,3 @@ export async function POST(req: Request) {
     );
   }
 }
-
