@@ -4,12 +4,14 @@ import { Button } from "@/components/ui/RadixButton";
 interface ProfileHeaderProps {
   name: string;
   title: string;
+  department: string;
   isCurrentUser: boolean;
 }
 
 export function ProfileHeader({
   name,
   title,
+  department,
   isCurrentUser = false,
 }: ProfileHeaderProps) {
   return (
@@ -28,7 +30,9 @@ export function ProfileHeader({
             <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">
               {name}
             </h1>
-            <p className="text-teal-100 text-sm sm:text-base">{title}</p>
+            <p className="text-teal-100 text-sm sm:text-base">
+              {title},{department}
+            </p>
           </div>
         </div>
       </div>

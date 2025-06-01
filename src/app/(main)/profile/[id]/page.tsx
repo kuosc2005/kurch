@@ -8,7 +8,8 @@ import { authOptions } from "@/lib/auth/authOptions";
 function getProfileData(): ProfileData {
   return {
     name: "Dr. John Doe",
-    title: "Associate Professor, Department of Environmental Science",
+    title: "Associate Professor",
+    department: "Department of Environmental Science",
     university: "Kathmandu University",
     location: "Dhulikhel, Nepal",
     email: "j.doe@ku.edu.np",
@@ -83,6 +84,7 @@ export default async function ProfilePage({
         <ProfileHeader
           name={profileData.name}
           title={profileData.title}
+          department={profileData.department}
           isCurrentUser={isCurrentUser}
         />
 

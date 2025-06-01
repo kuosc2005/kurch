@@ -12,11 +12,15 @@ export interface Publication {
 export interface ProfileData {
   name: string;
   title: string;
+  department: string;
   university: string;
   location: string;
   email: string;
   education: string;
   bio: string;
-  researchInterests: string[];
-  publications: Publication[];
+  website?: string;
+  orcidId?: string;
+  googleScholar?: string;
+  researchInterests?: string[];
+  publications?: Publication[];
 }
