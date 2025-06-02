@@ -1,5 +1,6 @@
 import { HiShare, HiPencil } from "react-icons/hi";
 import { Button } from "@/components/ui/RadixButton";
+import Link from "next/link";
 
 interface ProfileHeaderProps {
   name: string;
@@ -48,14 +49,16 @@ export function ProfileHeader({
             <span className="hidden sm:inline">Share</span>
           </Button>
           {isCurrentUser && (
-            <Button
-              variant="secondary"
-              size="sm"
-              className="bg-white text-primary"
-            >
-              <HiPencil size={16} />
-              <span className="hidden sm:inline">Edit Profile</span>
-            </Button>
+            <Link href="/settings">
+              <Button
+                variant="secondary"
+                size="sm"
+                className="bg-white text-primary"
+              >
+                <HiPencil size={16} />
+                <span className="hidden sm:inline">Edit Profile</span>
+              </Button>
+            </Link>
           )}
         </div>
       </div>

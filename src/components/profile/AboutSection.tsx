@@ -5,7 +5,7 @@ interface AboutSectionProps {
   location: string;
   education: string;
   email: string;
-  researchInterests: string[];
+  research_interests: string[];
   bio: string;
 }
 
@@ -14,7 +14,7 @@ export function AboutSection({
   location,
   education,
   email,
-  researchInterests,
+  research_interests,
   bio,
 }: AboutSectionProps) {
   return (
@@ -43,7 +43,7 @@ export function AboutSection({
       <div className="mb-8">
         <h4 className="font-semibold text-gray-800 mb-4">RESEARCH INTERESTS</h4>
         <div className="flex flex-wrap gap-2">
-          {researchInterests.map((tag, index) => (
+          {research_interests.map((tag, index) => (
             <span
               key={index}
               className="bg-teal-50 text-teal-700 px-3 py-1.5 rounded-full text-sm font-medium border border-teal-100"

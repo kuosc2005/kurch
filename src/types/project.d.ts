@@ -1,6 +1,6 @@
 // Reusable types
 interface Collaborator {
-  id: string;
+  user_id: string;
   name: string;
   role: string;
   email: string;

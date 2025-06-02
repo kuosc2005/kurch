@@ -12,7 +12,7 @@ import {
   ChevronDown,
 } from "lucide-react";
 import Image from "next/image";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 
 interface AcademicLayoutProps {
   children: React.ReactNode;
@@ -42,8 +42,7 @@ const AcademicLayout: React.FC<AcademicLayoutProps> = ({ children }) => {
   };
 
   const handleLogout = () => {
-    // Add your logout logic here
-    console.log("Logout clicked");
+    signOut();
     setDropdownOpen(false);
   };
 

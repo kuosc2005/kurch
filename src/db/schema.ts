@@ -63,6 +63,8 @@ export const userProfile = pgTable("user_profile", {
   department: text("department"),
   bio: text("bio"),
   website: text("website"),
+  education: text("education"),
+  location: text("location"),
   orcid_id: text("orcid_id"),
   google_scholar: text("google_scholar"),
   research_interests: text("research_interests"),
@@ -98,11 +100,10 @@ export const project = pgTable("project", {
 
 export const projectCollaborators = pgTable("project_collaborators", {
   id: uuid("id").primaryKey().defaultRandom(),
-
+  user_id: uuid("user_id"),
   project_id: uuid("project_id")
     .notNull()
     .references(() => project.id, { onDelete: "cascade" }),
-
   name: text("name").notNull(),
   role: text("role").notNull(),
   email: text("email").notNull(),

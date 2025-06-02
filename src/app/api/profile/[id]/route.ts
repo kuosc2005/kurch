@@ -10,7 +10,7 @@ export async function GET(
 ) {
   try {
     const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
-    console.log(token)
+    console.log(token);
 
     if (!token) {
       return NextResponse.json(
@@ -18,7 +18,7 @@ export async function GET(
         { status: 401 }
       );
     }
-      
+
     const userId = (await params).id;
 
     const profile = await getUserProfileData(userId);
@@ -40,8 +40,6 @@ export async function GET(
   }
 }
 
-
-
 export async function POST(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -49,7 +47,10 @@ export async function POST(
   try {
     const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
     if (!token) {
-      return NextResponse.json({ error: "Authentication required" }, { status: 401 });
+      return NextResponse.json(
+        { error: "Authentication required" },
+        { status: 401 }
+      );
     }
 
     const userId = (await params).id;
@@ -68,6 +69,8 @@ export async function POST(
       website,
       orcid_id,
       google_scholar,
+      education,
+      location,
       research_interests,
     } = body;
 
@@ -81,10 +84,12 @@ export async function POST(
       //userProfile exists,only update defined fields
       await db
         .update(userProfile)
-        .set({ 
+        .set({
           ...(title !== undefined && { title }),
           ...(department !== undefined && { department }),
           ...(bio !== undefined && { bio }),
+          ...(education !== undefined && { education }),
+          ...(location !== undefined && { location }),
           ...(website !== undefined && { website }),
           ...(orcid_id !== undefined && { orcid_id }),
           ...(google_scholar !== undefined && { google_scholar }),
@@ -93,13 +98,15 @@ export async function POST(
         })
         .where(eq(userProfile.user_id, userId));
     } else {
-//doesn't exist, so create userProfile table according to passed values
+      //doesn't exist, so create userProfile table according to passed values
       await db.insert(userProfile).values({
         user_id: userId,
         title: title || null, // null values if not provided in post request
         department: department || null,
         bio: bio || null,
         website: website || null,
+        education: education || null,
+        location: location || null,
         orcid_id: orcid_id || null,
         google_scholar: google_scholar || null,
         research_interests: research_interests || null,
@@ -111,6 +118,9 @@ export async function POST(
     return NextResponse.json({ message: "Profile updated successfully" });
   } catch (err) {
     console.error("Error updating profile:", err);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
   }
 }
