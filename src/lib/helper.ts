@@ -93,17 +93,23 @@ export async function getUserProfileData(
         email: users.email,
         title: userProfile.title,
         bio: userProfile.bio,
+        education: userProfile.education,
+        location: userProfile.location,
         department: userProfile.department,
+        google_scholar: userProfile.google_scholar,
+        website: userProfile.website,
         research_interests: userProfile.research_interests,
+        ocrid: userProfile.orcid_id,
       })
       .from(users)
       .leftJoin(userProfile, eq(users.id, userProfile.user_id))
       .where(eq(users.id, userId));
 
     const row = results[0];
+
     if (!row) return null;
 
-    const researchInterests = row.research_interests
+    const research_interests = row.research_interests
       ? row.research_interests.split(",").map((s) => s.trim())
       : [];
 
@@ -112,12 +118,14 @@ export async function getUserProfileData(
       email: row.email,
       title: row.title || "",
       university: "Kathmandu University",
-      location: "",
-      education: "",
+      location: row.location || "",
+      education: row.education || "",
       bio: row.bio || "",
-      researchInterests,
-      publications: [],
+      research_interests,
       department: row.department || "",
+      google_scholar: row.google_scholar || "",
+      website: row.website || "",
+      orcid: row.ocrid || "",
     };
 
     return profileData;

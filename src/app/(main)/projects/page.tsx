@@ -38,7 +38,12 @@ const filterOptions = {
 
 async function getProjectData(): Promise<Project[] | null> {
   try {
-    const response = await fetch(`${baseUrl}/api/projects/`);
+    const response = await fetch(`${baseUrl}/api/projects/`, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
 
     const data = await response.json();
 

@@ -19,8 +19,8 @@ export interface ProfileData {
   education: string;
   bio: string;
   website?: string;
-  orcidId?: string;
-  googleScholar?: string;
-  researchInterests: string[];
-  publications: Publication[];
+  orcid?: string;
+  google_scholar?: string;
+  research_interests: string[];
+  publications?: Publication[];
 }

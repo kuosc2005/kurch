@@ -1,67 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ProfileData } from "../../types/profile";
 import { AboutSection } from "./AboutSection";
-import { PublicationsSection } from "@/components/profile/PublicationsSection";
 import { ProjectsSection } from "@/components/profile/ProjectsSection";
 import { TabNavigation, TabType } from "./TabNavigation";
 import { Button } from "../ui/RadixButton";
-import { HiFilter, HiPlus } from "react-icons/hi";
-
-const mockProjects: Project[] = [
-  {
-    id: "1",
-    title: "Radiology Tagging System",
-    description: "An annotation Platform for radiologists",
-    tags: ["React.js", "TypeScript", "PostgreSQL"],
-    collaborators: [{ name: "Ashwin Imma", avatar: "/api/placeholder/32/32" }],
-    updated_at: "2 days ago",
-    semester: "1st Sem",
-    field_of_study: "Computer Science",
-    technologies: ["React", "TypeScript", "PostgreSQL"],
-  },
-  {
-    id: "2",
-    title: "E-Commerce Platform",
-    description: "Full-stack online shopping platform with payment integration",
-    tags: ["Next.js", "Node.js", "MongoDB"],
-    collaborators: [
-      { name: "John Doe", avatar: "/api/placeholder/32/32" },
-      { name: "Jane Smith", avatar: "/api/placeholder/32/32" },
-    ],
-    updated_at: "1 week ago",
-    semester: "2nd Sem",
-    field_of_study: "Computer Engineering",
-    technologies: ["Next.js", "Node.js", "MongoDB"],
-  },
-  {
-    id: "3",
-    title: "AI Chatbot Assistant",
-    description: "Intelligent chatbot using natural language processing",
-    tags: ["Python", "TensorFlow", "Flask"],
-    collaborators: [
-      { name: "Sarah Connor", avatar: "/api/placeholder/32/32" },
-      { name: "Alex Turner", avatar: "/api/placeholder/32/32" },
-    ],
-    updated_at: "3 days ago",
-    semester: "3rd Sem",
-    field_of_study: "Artificial Intelligence",
-    technologies: ["Python", "TensorFlow", "Flask"],
-  },
-  {
-    id: "4",
-    title: "Mobile Banking App",
-    description:
-      "Secure mobile banking application with biometric authentication",
-    tags: ["React Native", "Firebase", "Node.js"],
-    collaborators: [{ name: "David Kim", avatar: "/api/placeholder/32/32" }],
-    updated_at: "5 days ago",
-    semester: "4th Sem",
-    field_of_study: "Cybersecurity",
-    technologies: ["React Native", "Firebase", "Node.js"],
-  },
-];
+import { HiPlus } from "react-icons/hi";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
 
 interface ProfileContentProps {
   profileData: ProfileData;
@@ -72,9 +19,41 @@ export function ProfileContent({
   profileData,
   isCurrentUser,
 }: ProfileContentProps) {
-  const [activeTab, setActiveTab] = useState<TabType>("Publications");
+  const [activeTab, setActiveTab] = useState<TabType>("Projects");
+  const session = useSession();
+  const tabs = ["About", "Projects"] as const;
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [_, setIsLoading] = useState(true);
 
-  const tabs = ["About", "Publications", "Projects"] as const;
+  useEffect(
+    function () {
+      const fetchProjects = async () => {
+        try {
+          setIsLoading(true);
+          const response = await fetch(
+            `/api/projects/user/${session.data?.user.id}`
+          );
+
+          if (!response.ok) {
+            throw new Error("failed to fetch user's projects");
+          }
+
+          const data = await response.json();
+          setProjects(data || []);
+        } catch (error) {
+          console.log(error);
+          setProjects([]);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+
+      if (session.data?.user.id) {
+        fetchProjects();
+      }
+    },
+    [session.data?.user.id]
+  );
 
   return (
     <>
@@ -95,63 +74,35 @@ export function ProfileContent({
             location={profileData.location}
             education={profileData.education}
             email={profileData.email}
-            researchInterests={profileData.researchInterests}
+            research_interests={profileData.research_interests}
             bio={profileData.bio}
           />
         </div>
 
-        {/* Right Content - Publications/Projects */}
+        {/* Right Content - Projects */}
         <div className="xl:col-span-2 space-y-6">
           {/* Tab Navigation */}
           <TabNavigation
             activeTab={activeTab}
             onTabChange={setActiveTab}
-            tabs={["Publications", "Projects"]}
+            tabs={["Projects"]}
             variant="desktop"
           />
 
-          {activeTab === "Publications" && (
-            <PublicationsSection publications={profileData.publications}>
-              {isCurrentUser && (
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  className="bg-primary text-white"
-                >
-                  <HiPlus size={16} />
-                  <span>Add Publication</span>
-                </Button>
-              )}
-              <Button
-                variant="secondary"
-                size="sm"
-                className="bg-gray-100 text-black border-1 border-gray-300"
-              >
-                <HiFilter size={16} />
-                <span>Filter</span>
-              </Button>
-            </PublicationsSection>
-          )}
           {activeTab === "Projects" && (
-            <ProjectsSection projects={mockProjects}>
+            <ProjectsSection projects={projects}>
               {isCurrentUser && (
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  className="bg-primary text-white"
-                >
-                  <HiPlus size={16} />
-                  <span>Add Project</span>
-                </Button>
+                <Link href="/projects/add-project">
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    className="bg-primary text-white"
+                  >
+                    <HiPlus size={16} />
+                    <span>Add Project</span>
+                  </Button>
+                </Link>
               )}
-              <Button
-                variant="secondary"
-                size="sm"
-                className="bg-gray-100 text-black border-1 border-gray-300"
-              >
-                <HiFilter size={16} />
-                <span>Filter</span>
-              </Button>
             </ProjectsSection>
           )}
         </div>
@@ -165,40 +116,24 @@ export function ProfileContent({
             location={profileData.location}
             education={profileData.education}
             email={profileData.email}
-            researchInterests={profileData.researchInterests}
+            research_interests={profileData.research_interests}
             bio={profileData.bio}
           />
         )}
-        {activeTab === "Publications" && (
-          <PublicationsSection publications={profileData.publications}>
-            {isCurrentUser && (
-              <Button
-                variant="secondary"
-                size="sm"
-                className="bg-primary text-white"
-              >
-                <HiPlus size={16} />
-                <span>Add Publication</span>
-              </Button>
-            )}
-            <Button variant="outline">
-              <HiFilter size={16} />
-              <span>Filter</span>
-            </Button>
-          </PublicationsSection>
-        )}
         {activeTab === "Projects" && (
-          <ProjectsSection projects={mockProjects}>
+          <ProjectsSection projects={projects}>
             {isCurrentUser && (
-              <Button variant="outline">
-                <HiPlus size={16} />
-                <span>Add Publication</span>
-              </Button>
+              <Link href="/projects/add-project">
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  className="bg-primary text-white"
+                >
+                  <HiPlus size={16} />
+                  <span>Add Project</span>
+                </Button>
+              </Link>
             )}
-            <Button variant="outline">
-              <HiFilter size={16} />
-              <span>Filter</span>
-            </Button>
           </ProjectsSection>
         )}
       </div>

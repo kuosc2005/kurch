@@ -63,6 +63,8 @@ export const userProfile = pgTable("user_profile", {
   department: text("department"),
   bio: text("bio"),
   website: text("website"),
+  education: text("education"),
+  location: text("location"),
   orcid_id: text("orcid_id"),
   google_scholar: text("google_scholar"),
   research_interests: text("research_interests"),
