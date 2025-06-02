@@ -37,6 +37,8 @@ export default async function ProjectDetailPage({
   const { id } = await params;
   const project = await fetchProject(id);
 
+  console.log(project);
+
   if (!project) {
     return (
       <div className="max-w-7xl mx-auto">
@@ -161,7 +163,7 @@ export default async function ProjectDetailPage({
 
           <div className="grid md:grid-cols-3 gap-6">
             {project?.collaborators.map((collaborator, index) => (
-              <Link href={`/profile/${collaborator.id}`} key={index}>
+              <Link href={`/profile/${collaborator.user_id}`} key={index}>
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center text-lg font-medium text-gray-600">
                     {collaborator.name

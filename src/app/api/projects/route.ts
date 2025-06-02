@@ -177,7 +177,7 @@ export async function POST(req: NextRequest) {
 
           return {
             project_id: insertedProject.id,
-            id: collaborator_user_id,
+            user_id: collaborator_user_id,
             name: c.name,
             role: c.role,
             email: c.email,

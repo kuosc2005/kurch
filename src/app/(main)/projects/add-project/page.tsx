@@ -164,10 +164,20 @@ export default function AddProjectPage() {
     setIsSubmitting(true);
 
     try {
+      // Add current user as project owner to collaborators before sending
+      const collaboratorsWithOwner = [
+        {
+          name: sessionDetails.data?.user?.name || "Current User",
+          role: "Project Owner",
+          email: sessionDetails.data?.user?.email || "",
+        },
+        ...formData.collaborators,
+      ];
+
       const payload = {
         title: formData.title,
         description: formData.description,
-        abstract: formData.abstract, // API expects 'abstract' but form has 'overview'
+        abstract: formData.abstract,
         tags: formData.tags,
         semester: formData.semester,
         fieldOfStudy: formData.fieldOfStudy,
@@ -175,7 +185,7 @@ export default function AddProjectPage() {
         categories: formData.categories,
         github_link: formData.github_link,
         report_link: formData.report_link,
-        collaborators: formData.collaborators,
+        collaborators: collaboratorsWithOwner,
       };
 
       const headers: Record<string, string> = {

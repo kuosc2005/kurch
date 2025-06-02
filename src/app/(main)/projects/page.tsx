@@ -1,5 +1,5 @@
+import { baseUrl } from "@/app/constants";
 import ProjectsClient from "@/components/projects/ProjectsClient";
-import { getAllProjects } from "@/lib/helper";
 
 const filterOptions = {
   semesters: [
@@ -38,13 +38,17 @@ const filterOptions = {
 
 async function getProjectData(): Promise<Project[] | null> {
   try {
-    const response = await getAllProjects();
+    const response = await fetch(`${baseUrl}/api/projects/`);
+
+    const data = await response.json();
+
+    console.log(data);
 
     if (!response) return null;
-    const formattedData = response.map((proj) => {
+    const formattedData = data.map((proj: Project) => {
       return {
         ...proj,
-        updated_at: proj.updated_at ? proj.updated_at.toISOString() : "",
+        updated_at: proj.updated_at ? proj.updated_at.toString() : "",
       };
     });
     return formattedData;

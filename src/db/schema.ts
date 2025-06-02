@@ -98,11 +98,10 @@ export const project = pgTable("project", {
 
 export const projectCollaborators = pgTable("project_collaborators", {
   id: uuid("id").primaryKey().defaultRandom(),
-
+  user_id: uuid("user_id"),
   project_id: uuid("project_id")
     .notNull()
     .references(() => project.id, { onDelete: "cascade" }),
-
   name: text("name").notNull(),
   role: text("role").notNull(),
   email: text("email").notNull(),
