@@ -7,6 +7,8 @@ import ResearchInterestsSection from "./ResearchInterestsSection";
 import ExternalLinksSection from "./ExternalLinksSection";
 import { Button } from "../ui/RadixButton";
 import { useSession } from "next-auth/react";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 type FormData = {
   firstName: string;
@@ -24,7 +26,7 @@ type FormData = {
 
 export default function ProfileForm() {
   const { data: session } = useSession();
-
+  const router = useRouter();
   const [formData, setFormData] = useState<FormData>({
     firstName: "",
     lastName: "",
@@ -144,12 +146,13 @@ export default function ProfileForm() {
         throw new Error("Failed to update profile");
       }
 
-      const result = await response.json();
-      console.log("Profile updated successfully:", result);
-      alert("Profile updated successfully!");
+      toast.success("Profile Updated Successfully!");
+      setTimeout(() => {
+        router.push(`/profile/${session?.user.id}`);
+      }, 1000);
     } catch (error) {
-      console.error("Error updating profile:", error);
-      alert("Failed to update profile. Please try again.");
+      console.log(error);
+      toast.error("Failed To Update Profile. Please Try Again.");
     }
   };
 

@@ -168,11 +168,11 @@ export async function POST(req: NextRequest) {
               collaborator_user_id = existingUser[0].id;
             } else {
               // Generate random UUID if user doesn't exist
-              collaborator_user_id = crypto.randomUUID();
+              collaborator_user_id = null;
             }
           } else {
             // Generate random UUID if no email provided
-            collaborator_user_id = crypto.randomUUID();
+            collaborator_user_id = null;
           }
 
           return {

@@ -130,14 +130,12 @@ const LoginPage: React.FC = () => {
             );
             break;
         }
-        console.error("Login error:", response.error);
       } else if (response?.ok) {
         toast.success("Login successful!");
         router.push("/projects");
       }
     } catch (error: any) {
       toast.error("An unexpected error occurred. Please try again.");
-      console.error("Login error:", error);
     } finally {
       setIsLoading(false);
     }
@@ -158,10 +156,10 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto p-6">
+    <div className="max-w-md sm:mx-auto lg:mx-0 space-y-4">
       <HeaderText title="Sign In" subtitle="Welcome back to your account" />
 
-      <form onSubmit={handleCredentialsSubmit} className="space-y-4">
+      <form onSubmit={handleCredentialsSubmit} className="space-y-6">
         <InputField
           type="email"
           value={email}

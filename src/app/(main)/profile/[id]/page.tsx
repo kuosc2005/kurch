@@ -14,7 +14,6 @@ async function getRealProfileData(id: string): Promise<ProfileData | null> {
       headers: {
         Cookie: headersList.get("cookie") || "",
       },
-      cache: "no-store",
     });
 
     if (!response.ok) {

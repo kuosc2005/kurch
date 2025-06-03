@@ -74,7 +74,7 @@ export default function SearchAndFilter({
         </div>
         <button
           onClick={() => setShowFilters(!showFilters)}
-          className="flex items-center gap-2 px-4 py-2 bg-gray-200 hover:bg-gray-200 rounded-lg transition-colors md:px-4 sm:px-3 sm:gap-2"
+          className="flex items-center gap-2 px-4 py-2 bg-gray-200 hover:bg-gray-200 rounded-lg transition-colors md:px-4 sm:px-3 sm:gap-2 cursor-pointer"
         >
           <Filter className="w-4 h-4 " />
           <span className="hidden sm:inline"> Filters</span>

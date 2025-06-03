@@ -287,13 +287,21 @@ export default function AddProjectPage() {
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Semester
               </label>
-              <InputField
-                variant="alt"
-                type="text"
+              <select
                 value={formData.semester}
                 onChange={(e) => handleInputChange("semester", e.target.value)}
-                placeholder="e.g., Fall 2024"
-              />
+                className="w-full px-3 py-2 border border-gray-200 rounded-[5px] focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent bg-white"
+              >
+                <option value="">Select Semester</option>
+                <option value="1st">1st Semester</option>
+                <option value="2nd">2nd Semester</option>
+                <option value="3rd">3rd Semester</option>
+                <option value="4th">4th Semester</option>
+                <option value="5th">5th Semester</option>
+                <option value="6th">6th Semester</option>
+                <option value="7th">7th Semester</option>
+                <option value="8th">8th Semester</option>
+              </select>
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">

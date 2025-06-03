@@ -3,14 +3,14 @@ import ProjectsClient from "@/components/projects/ProjectsClient";
 
 const filterOptions = {
   semesters: [
-    "1st Sem",
-    "2nd Sem",
-    "3rd Sem",
-    "4th Sem",
-    "5th Sem",
-    "6th Sem",
-    "7th Sem",
-    "8th Sem",
+    "1st Semester",
+    "2nd Semester",
+    "3rd Semester",
+    "4rth Semester",
+    "5th Semester",
+    "6th Semester",
+    "7th Semester",
+    "8th Semester",
   ],
   fieldsOfStudy: [
     "Computer Science",

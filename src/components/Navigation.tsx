@@ -93,7 +93,7 @@ const AcademicLayout: React.FC<AcademicLayoutProps> = ({ children }) => {
                   <div className="absolute right-0 top-10 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 border border-gray-200">
                     <button
                       onClick={handleLogout}
-                      className="flex items-center w-full px-4 py-2 text-sm text-red-700 hover:bg-gray-100"
+                      className="flex items-center cursor-pointer w-full px-4 py-2 text-sm text-red-700 hover:bg-gray-100"
                     >
                       <LogOut className="w-4 h-4 mr-3" />
                       Logout
@@ -108,7 +108,7 @@ const AcademicLayout: React.FC<AcademicLayoutProps> = ({ children }) => {
 
       {/* Sidebar */}
       <aside
-        className={`fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform  border-r border-gray-200 ${
+        className={`fixed top-0 bg-[#f9Fafb] left-0 z-40 mt-4 w-64 h-screen pt-20 transition-transform  border-r border-gray-200 ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         } lg:translate-x-0`}
       >
@@ -138,7 +138,7 @@ const AcademicLayout: React.FC<AcademicLayoutProps> = ({ children }) => {
       {/* Mobile backdrop */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 z-20 bg-gray-600/60 lg:hidden"
+          className="fixed inset-0 z-20 bg-gray-600/50 lg:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}

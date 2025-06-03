@@ -1,6 +1,6 @@
 "use client";
 
-import { Eye, Share, Github, ExternalLink } from "lucide-react";
+import { Eye, Share, Github, Download } from "lucide-react";
 
 interface Project {
   views: number;
@@ -25,21 +25,21 @@ export function ActionButtons({ project }: { project: Project }) {
     window.open(project.github_link, "_blank");
   };
 
-  const handleLiveDemo = () => {
+  const handleDownloadReport = () => {
     // Open live demo
     window.open(project.report_link, "_blank");
   };
 
   return (
     <div className="flex items-center gap-3">
-      <button className="flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-600 hover:bg-gray-200 rounded-lg transition-colors">
+      <button className="flex cursor-pointer items-center gap-2 px-4 py-2 bg-gray-100 text-gray-600 hover:bg-gray-200 rounded-lg transition-colors">
         <Eye className="w-4 h-4" />
         {project.views}
       </button>
 
       <button
         onClick={handleShare}
-        className="flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-600 hover:bg-gray-200 rounded-lg transition-colors"
+        className="flex items-center cursor-pointer gap-2 px-4 py-2 bg-gray-100 text-gray-600 hover:bg-gray-200 rounded-lg transition-colors"
       >
         <Share className="w-4 h-4" />
         Share
@@ -47,18 +47,18 @@ export function ActionButtons({ project }: { project: Project }) {
 
       <button
         onClick={handleGitHub}
-        className="flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-600 hover:bg-gray-200 rounded-lg transition-colors"
+        className="flex items-center cursor-pointer gap-2 px-4 py-2 bg-gray-100 text-gray-600 hover:bg-gray-200 rounded-lg transition-colors"
       >
         <Github className="w-4 h-4" />
         GitHub
       </button>
 
       <button
-        onClick={handleLiveDemo}
-        className="flex items-center gap-2 px-4 py-2 bg-teal-600 text-white hover:bg-teal-700 rounded-lg transition-colors"
+        onClick={handleDownloadReport}
+        className="flex items-center  cursor-pointer gap-2 px-4 py-2 bg-teal-600 text-white hover:bg-teal-700 rounded-lg transition-colors"
       >
-        <ExternalLink className="w-4 h-4" />
-        Live Demo
+        <Download className="w-4 h-4" />
+        Report
       </button>
     </div>
   );

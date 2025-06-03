@@ -33,6 +33,7 @@ export default function InputField({
 
   return (
     <input
+      autoComplete="new-password"
       type={type}
       value={value}
       onChange={onChange}
