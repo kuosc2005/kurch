@@ -4,10 +4,7 @@ import { ArrowRight, BookOpen, Users, FileText } from "lucide-react";
 
 export default function About() {
   return (
-    <section
-      id="about"
-      className="py-20 md:py-28 bg-gradient-to-b from-white to-slate-50/50"
-    >
+    <section id="about" className="py-20 md:py-28 bg-[#025C62]/5">
       <div className="container px-4 sm:px-6 lg:px-8  mx-auto ">
         {/* Header Section */}
         <div className="flex flex-col items-center justify-center space-y-6 text-center mb-16 md:mb-20">

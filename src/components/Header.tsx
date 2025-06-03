@@ -2,23 +2,40 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/RadixButton";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
-
-const tabNames = ["Home", "About", "Contact"];
 
 export default function AcademicHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => {
+      setScrolled(window.scrollY > 10);
+    };
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+  const tabs = [
+    { label: "Home", href: "/" },
+    { label: "About", href: "/#about" },
+    { label: "Contact", href: "/#contact" },
+    { label: "Team", href: "/team" },
+  ];
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-slate-200/20 bg-white/95 backdrop-blur-xl supports-[backdrop-filter]:bg-white/90">
+    <header
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${scrolled ? "backdrop-blur-xl  shadow-md" : "bg-transparent"
+        }`}
+      style={{ willChange: "backdrop-filter, background" }}
+    >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 ">
         <div className="relative flex items-center justify-between h-20">
           {/* Brand Identity */}
           <div className="flex items-center space-x-4">
             <div className="relative group">
               <Image
-                src="/logo.png"
+                src="/logo-bg.svg"
                 alt="KURCH Academic Platform"
                 width={50}
                 height={50}
@@ -33,13 +50,13 @@ export default function AcademicHeader() {
 
           {/* Primary Navigation - Desktop */}
           <nav className="hidden lg:flex items-center space-x-1">
-            {tabNames.map((tab) => (
+            {tabs.map((tab) => (
               <Link
-                key={tab}
-                href={tab === "Home" ? "/" : `/#${tab.toLowerCase()}`}
-                className="relative px-4 py-2 text-sm font-medium text-slate-700 hover:text-[#025C62] transition-all duration-300 rounded-lg hover:bg-slate-50 group"
+                key={tab.label}
+                href={tab.href}
+                className="relative px-4 py-2 text-md  font-medium text-slate-800 hover:text-[#025C62] transition-all duration-300 rounded-lg  group"
               >
-                {tab}
+                {tab.label}
                 <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-[#025C62] to-[#577B7B] transition-all duration-300 group-hover:w-8 group-hover:left-1/2 transform -translate-x-1/2"></span>
               </Link>
             ))}
@@ -51,7 +68,7 @@ export default function AcademicHeader() {
               <Button
                 variant="ghost"
                 size="sm"
-                className="text-slate-700 hover:text-[#025C62] hover:bg-slate-50 font-medium border border-slate-200 hover:border-[#025C62]/30 transition-all duration-300"
+                className="text-slate-700 hover:text-[#025C62] bg-slate-200 hover:bg-slate-50 font-medium border border-slate-200 hover:border-[#025C62]/30 transition-all duration-300"
               >
                 Login
               </Button>
@@ -74,15 +91,13 @@ export default function AcademicHeader() {
             <div className="relative w-6 h-6">
               <Menu
                 size={24}
-                className={`absolute inset-0 transition-all duration-300 ${
-                  isMenuOpen ? "rotate-90 opacity-0" : "rotate-0 opacity-100"
-                }`}
+                className={`absolute inset-0 transition-all duration-300 ${isMenuOpen ? "rotate-90 opacity-0" : "rotate-0 opacity-100"
+                  }`}
               />
               <X
                 size={24}
-                className={`absolute inset-0 transition-all duration-300 ${
-                  isMenuOpen ? "rotate-0 opacity-100" : "-rotate-90 opacity-0"
-                }`}
+                className={`absolute inset-0 transition-all duration-300 ${isMenuOpen ? "rotate-0 opacity-100" : "-rotate-90 opacity-0"
+                  }`}
               />
             </div>
           </button>
@@ -90,22 +105,21 @@ export default function AcademicHeader() {
 
         {/* Mobile Menu */}
         <div
-          className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-            isMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
-          }`}
+          className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${isMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+            }`}
         >
           <div className="px-4 py-6 bg-gradient-to-br from-slate-50 to-white border-t border-slate-100">
             {/* Mobile Navigation */}
             <nav className="space-y-2 mb-6">
-              {tabNames.map((tab, index) => (
+              {tabs.map((tab, index) => (
                 <Link
-                  key={tab}
-                  href={tab === "Home" ? "/" : `#${tab.toLowerCase()}`}
+                  key={tab.label}
+                  href={tab.href}
                   className="block px-4 py-3 text-sm font-medium text-slate-700 hover:text-[#025C62] hover:bg-white rounded-xl transition-all duration-300 transform hover:translate-x-2"
                   onClick={() => setIsMenuOpen(false)}
                   style={{ animationDelay: `${index * 50}ms` }}
                 >
-                  {tab}
+                  {tab.label}
                 </Link>
               ))}
             </nav>
