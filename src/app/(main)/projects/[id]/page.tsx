@@ -12,7 +12,6 @@ async function fetchProject(id: string): Promise<ProjectDetails | null> {
       headers: {
         Cookie: headersList.get("cookie") || "",
       },
-      cache: "no-store",
     });
 
     if (!response.ok) {
@@ -133,7 +132,7 @@ export default async function ProjectDetailPage({
                   d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
-              Uploaded {project?.updated_at}
+              Uploaded {new Date(project?.updated_at).toLocaleDateString()}
             </span>
             <span>{project?.semester}</span>
             <span>{project?.field_of_study}</span>
@@ -162,9 +161,9 @@ export default async function ProjectDetailPage({
           </div>
 
           <div className="grid md:grid-cols-3 gap-6">
-            {project?.collaborators.map((collaborator, index) => (
-              <Link href={`/profile/${collaborator.user_id}`} key={index}>
-                <div className="flex items-center gap-3">
+            {project?.collaborators.map((collaborator, index) => {
+              const content = (
+                <div className="flex  items-center gap-3">
                   <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center text-lg font-medium text-gray-600">
                     {collaborator.name
                       .split(" ")
@@ -181,8 +180,22 @@ export default async function ProjectDetailPage({
                     </p>
                   </div>
                 </div>
-              </Link>
-            ))}
+              );
+
+              return collaborator.user_id ? (
+                <Link
+                  className="cursor-pointer"
+                  href={`/profile/${collaborator.user_id}`}
+                  key={index}
+                >
+                  {content}
+                </Link>
+              ) : (
+                <div className="cursor-default" key={index}>
+                  {content}
+                </div>
+              );
+            })}
           </div>
         </div>
 

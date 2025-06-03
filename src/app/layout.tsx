@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "@/app/globals.css";
 import CustomSessionProvider from "@/components/SessionLayout/CustomSessionProvider";
-import {Toaster} from "sonner"
+import { Toaster } from "sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,9 +32,9 @@ export default function RootLayout({
       >
         <CustomSessionProvider>
           {/* SessionProvider is used to manage user sessions */}
-        {children}
+          {children}
         </CustomSessionProvider>
-        <Toaster></Toaster>
+        <Toaster position="top-center" />
       </body>
     </html>
   );
