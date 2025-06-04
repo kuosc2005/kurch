@@ -164,7 +164,7 @@ export default function LoginPage(): JSX.Element {
     setIsSubmitting(true);
 
     try {
-      const submissionData: SubmissionData = {
+      const submissionData = {
         username: formData.username.trim(),
         email: formData.email.toLowerCase().trim(),
         password: formData.password,
@@ -172,7 +172,6 @@ export default function LoginPage(): JSX.Element {
 
       console.log("Form submission data:", submissionData);
 
-      // Here you would make your API call
       const response = await axios.post("api/auth/signUp", submissionData);
       console.log("API response:", response);
 
@@ -182,7 +181,7 @@ export default function LoginPage(): JSX.Element {
       }
 
       toast.success(response.data.message || "Registration successful!");
-      router.push("/signup/verify");
+      router.push(`/signup/verify?email=${encodeURIComponent(submissionData.email)}`);
     } catch (error: any) {
       console.error("Registration error:", error);
 

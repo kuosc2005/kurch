@@ -80,6 +80,8 @@ export const authOptions: AuthOptions = {
           
           if (error instanceof AuthError) {
             switch (error.code) {
+              case 'ACCOUNT_NOT_VERIFIED':
+                throw new Error("ACCOUNT_NOT_VERIFIED");
               case 'USER_NOT_FOUND':
                 throw new Error("USER_NOT_FOUND");
               case 'INVALID_PASSWORD':

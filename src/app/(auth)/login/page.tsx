@@ -11,6 +11,7 @@ import SignInWithButton from "@/components/ui/SignInWithButton";
 import { toast } from "sonner";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 const VALID_DOMAINS: readonly string[] = [
   "@student.ku.edu.np",
@@ -78,11 +79,13 @@ const LoginPage: React.FC = () => {
     try {
       if (!email || !password) {
         toast.error("Please enter both email and password.");
+        setIsLoading(false);
         return;
       }
 
       if (!validateEmailDomain(email)) {
         toast.error("Please use a valid KU email address.");
+        setIsLoading(false);
         return;
       }
 
@@ -95,6 +98,22 @@ const LoginPage: React.FC = () => {
       console.log("Response from signIn:", response);
 
       if (response?.error) {
+        if (response.error === "ACCOUNT_NOT_VERIFIED") {
+          // If account is not verified, resend OTP and redirect to verification page
+          try {
+            const resendResponse = await axios.post("/api/auth/resend-otp", { email });
+            if (resendResponse.status === 200) {
+              toast.success("A verification code has been sent to your email.");
+              router.push(`/signup/verify?email=${encodeURIComponent(email)}`);
+            }
+          } catch (resendError: any) {
+            console.error("Error resending OTP:", resendError);
+            toast.error("Failed to resend verification code. Please try again.");
+          }
+          return;
+        }
+
+        // Handle other errors
         switch (response.error) {
           case "USER_NOT_FOUND":
             toast.error(
@@ -123,7 +142,6 @@ const LoginPage: React.FC = () => {
             );
             break;
           case "CredentialsSignin":
-          case "AUTHENTICATION_FAILED":
           default:
             toast.error(
               "Login failed. Please check your credentials and try again."
@@ -134,7 +152,8 @@ const LoginPage: React.FC = () => {
         toast.success("Login successful!");
         router.push("/projects");
       }
-    } catch (error: any) {
+    } catch (error) {
+      console.error("Login error:", error);
       toast.error("An unexpected error occurred. Please try again.");
     } finally {
       setIsLoading(false);
