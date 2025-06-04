@@ -8,9 +8,9 @@ import { headers } from "next/headers";
 async function getRealProfileData(id: string): Promise<ProfileData | null> {
   try {
     const headersList = await headers();
-    const host = headersList.get("host");
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL || "http://localhost:3000";
 
-    const response = await fetch(`http://${host}/api/profile/${id}`, {
+    const response = await fetch(`${baseUrl}/api/profile/${id}`, {
       headers: {
         Cookie: headersList.get("cookie") || "",
       },

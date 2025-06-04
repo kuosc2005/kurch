@@ -26,12 +26,13 @@ export function ProfileContent({
   const [_, setIsLoading] = useState(true);
 
   useEffect(
-    function () {
+    function() {
       const fetchProjects = async () => {
+        const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
         try {
           setIsLoading(true);
           const response = await fetch(
-            `/api/projects/user/${session.data?.user.id}`
+            `${baseUrl}/api/projects/user/${session.data?.user.id}`,
           );
 
           if (!response.ok) {
@@ -52,7 +53,7 @@ export function ProfileContent({
         fetchProjects();
       }
     },
-    [session.data?.user.id]
+    [session.data?.user.id],
   );
 
   return (

@@ -164,7 +164,7 @@ const LoginPage: React.FC = () => {
     setIsGoogleLoading(true);
     try {
       await signIn("google", {
-        callbackUrl: "/",
+        callbackUrl: "/projects",
         redirect: true,
       });
     } catch (error) {

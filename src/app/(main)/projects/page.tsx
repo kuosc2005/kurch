@@ -42,7 +42,7 @@ const filterOptions = {
 
 async function getProjectData(): Promise<Project[] | null> {
   try {
-    const baseUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000';
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL || 'http://localhost:3000';
     const response = await fetch(`${baseUrl}/api/projects/`, {
       headers: {
         "Content-Type": "application/json",

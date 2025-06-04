@@ -53,7 +53,7 @@ export default function LoginPage(): JSX.Element {
     setIsGoogleLoading(true);
     try {
       await signIn("google", {
-        callbackUrl: "/",
+        callbackUrl: "/projects",
         redirect: true,
       });
     } catch (error) {

@@ -47,8 +47,12 @@ export default function ProfileForm() {
   // Fetch profile data when component mounts and session is available
   useEffect(() => {
     const fetchProfileData = async () => {
+      const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
+
       try {
-        const response = await fetch(`/api/profile/${session?.user.id}`);
+        const response = await fetch(
+          `${baseUrl}/api/profile/${session?.user.id}`,
+        );
 
         if (response.ok) {
           const profileData = await response.json();
@@ -112,7 +116,7 @@ export default function ProfileForm() {
     setFormData((prev) => ({
       ...prev,
       researchInterests: prev.researchInterests.filter(
-        (item) => item !== interest
+        (item) => item !== interest,
       ),
     }));
   };
@@ -122,25 +126,29 @@ export default function ProfileForm() {
       // Combine firstName and lastName into a single name field
       const fullName =
         `${formData.firstName.trim()} ${formData.lastName.trim()}`.trim();
+      const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
 
-      const response = await fetch(`/api/profile/${session?.user.id}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `${baseUrl}/api/profile/${session?.user.id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: fullName,
+            title: formData.title,
+            department: formData.department,
+            location: formData.location,
+            education: formData.education,
+            bio: formData.bio,
+            website: formData.website,
+            orcid_id: formData.orcidId,
+            google_scholar: formData.googleScholar,
+            research_interests: formData.researchInterests,
+          }),
         },
-        body: JSON.stringify({
-          name: fullName,
-          title: formData.title,
-          department: formData.department,
-          location: formData.location,
-          education: formData.education,
-          bio: formData.bio,
-          website: formData.website,
-          orcid_id: formData.orcidId,
-          google_scholar: formData.googleScholar,
-          research_interests: formData.researchInterests,
-        }),
-      });
+      );
 
       if (!response.ok) {
         throw new Error("Failed to update profile");
