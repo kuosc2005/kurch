@@ -1,38 +1,26 @@
-import postgres from "postgres";
-import { drizzle } from "drizzle-orm/postgres-js";
 import {
-  boolean,
-  integer,
+  timestamp,
   pgTable,
   text,
-  timestamp,
   uuid,
+  boolean,
+  integer,
 } from "drizzle-orm/pg-core";
+import postgres from "postgres";
+import { drizzle } from "drizzle-orm/postgres-js";
 
-const {
-  POSTGRES_USER,
-  POSTGRES_PASSWORD,
-  POSTGRES_HOST,
-  POSTGRES_PORT,
-  POSTGRES_DB,
-} = process.env;
+// Use Neon-provided connection string (often DATABASE_URL)
+const connectionString = process.env.DATABASE_URL || "";
 
-if (!POSTGRES_USER || !POSTGRES_PASSWORD || !POSTGRES_DB) {
-  throw new Error("Missing required PostgreSQL environment variables");
+if (!connectionString) {
+  throw new Error("Missing Neon DATABASE_URL environment variable");
 }
 
-const connectionString = `postgres://${encodeURIComponent(
-  POSTGRES_USER
-)}:${encodeURIComponent(
-  POSTGRES_PASSWORD
-)}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}`;
-
+// Neon requires SSL; postgres-js handles this automatically for Neon URLs.
 const pool = postgres(connectionString, { max: 1 });
 
 export const users = pgTable("user", {
-  //Login
-
-  id: uuid("id").primaryKey().defaultRandom(), // Login
+  id: uuid("id").primaryKey().defaultRandom(),
   name: text("name").notNull(),
   email: text("email").notNull().unique(),
   password_hash: text("password_hash"),
@@ -53,7 +41,6 @@ export const email_otps = pgTable("email_otps", {
   created_at: timestamp("created_at").defaultNow(),
 });
 
-// userProfile table
 export const userProfile = pgTable("user_profile", {
   user_id: uuid("user_id")
     .notNull()
@@ -77,15 +64,14 @@ export const project = pgTable("project", {
   user_id: uuid("user_id")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
-
   title: text("title").notNull(),
   description: text("description").notNull(),
   abstract: text("abstract").notNull(),
-  tags: text("tags").notNull(), // store JSON stringified
+  tags: text("tags").notNull(),
   semester: text("semester").notNull(),
   field_of_study: text("field_of_study").notNull(),
-  technologies: text("technologies").notNull(), // store JSON stringified
-  categories: text("categories").notNull(), // store JSON stringified
+  technologies: text("technologies").notNull(),
+  categories: text("categories").notNull(),
   view_count: integer("view_count").default(0),
   like_count: integer("like_count").default(0),
   created_at: timestamp("created_at").defaultNow(),
@@ -94,8 +80,8 @@ export const project = pgTable("project", {
   forks: integer("forks").default(0),
   likes: integer("likes").default(0),
   shares: integer("shares").default(0),
-  github_link: text("github_link"), // New field
-  report_link: text("report_link"), // New field
+  github_link: text("github_link"),
+  report_link: text("report_link"),
 });
 
 export const projectCollaborators = pgTable("project_collaborators", {
@@ -107,7 +93,6 @@ export const projectCollaborators = pgTable("project_collaborators", {
   name: text("name").notNull(),
   role: text("role").notNull(),
   email: text("email").notNull(),
-
   created_at: timestamp("created_at").defaultNow(),
 });
 
@@ -117,6 +102,6 @@ export const db = drizzle(pool, {
     userProfile,
     email_otps,
     project,
-    projectCollaborators, // 👈 Add this
+    projectCollaborators,
   },
 });
