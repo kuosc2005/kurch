@@ -6,7 +6,8 @@ import { headers } from "next/headers";
 async function fetchProject(id: string): Promise<ProjectDetails | null> {
   try {
     const headersList = await headers();
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL || "http://localhost:3000";
+    const baseUrl =
+      process.env.NEXT_PUBLIC_BASE_API_URL || "http://localhost:3000";
 
     const response = await fetch(`${baseUrl}/api/projects/${id}`, {
       headers: {
@@ -83,41 +84,39 @@ export default async function ProjectDetailPage({
             {/* Action Buttons */}
             <ActionButtons project={project!} />
           </div>
-
-          {/* Categories */}
-          <div className="flex flex-wrap gap-2 mb-4">
-            {project?.categories.map((category) => (
-              <span
-                key={category}
-                className="px-3 py-1 bg-green-50 text-green-700 rounded-full text-sm"
-              >
-                {category}
-              </span>
-            ))}
-          </div>
-
+          {/* {/* Categories */}{" "}
+          {/* <div className="flex flex-wrap gap-2 mb-4"> */}
+          {/*   {project?.categories.map((category) => ( */}
+          {/*     <span */}
+          {/*       key={category} */}
+          {/*       className="px-3 py-1 bg-green-50 text-green-700 rounded-full text-sm" */}
+          {/*     > */}
+          {/*       {category} */}
+          {/*     </span> */}
+          {/*   ))} */}
+          {/* </div> */}
           {/* Stats */}
           <div className="flex items-center gap-6 text-sm text-gray-500 pt-4 border-t border-gray-100">
-            <span className="flex items-center gap-1">
-              <Eye className="w-4 h-4" />
-              {project?.views} views
-            </span>
-            <span className="flex items-center gap-1">
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"
-                />
-              </svg>
-              {project?.forks} forks
-            </span>
+            {/* <span className="flex items-center gap-1"> */}
+            {/*   <Eye className="w-4 h-4" /> */}
+            {/*   {project?.views} views */}
+            {/* </span> */}
+            {/* <span className="flex items-center gap-1"> */}
+            {/*   <svg */}
+            {/*     className="w-4 h-4" */}
+            {/*     fill="none" */}
+            {/*     stroke="currentColor" */}
+            {/*     viewBox="0 0 24 24" */}
+            {/*   > */}
+            {/*     <path */}
+            {/*       strokeLinecap="round" */}
+            {/*       strokeLinejoin="round" */}
+            {/*       strokeWidth={2} */}
+            {/*       d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" */}
+            {/*     /> */}
+            {/*   </svg> */}
+            {/*   {project?.forks} forks */}
+            {/* </span> */}
             <span className="flex items-center gap-1">
               <svg
                 className="w-4 h-4"
