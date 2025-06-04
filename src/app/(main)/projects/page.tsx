@@ -1,4 +1,3 @@
-import { baseUrl } from "@/app/constants";
 import ProjectsClient from "@/components/projects/ProjectsClient";
 import { Suspense } from "react";
 import { HiOutlineDocumentAdd } from "react-icons/hi";
@@ -10,7 +9,7 @@ const filterOptions = {
     "1st Semester",
     "2nd Semester",
     "3rd Semester",
-    "4rth Semester",
+    "4th Semester",
     "5th Semester",
     "6th Semester",
     "7th Semester",
@@ -42,7 +41,8 @@ const filterOptions = {
 
 async function getProjectData(): Promise<Project[] | null> {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL || 'http://localhost:3000';
+    const baseUrl =
+      process.env.NEXT_PUBLIC_BASE_API_URL || "http://localhost:3000";
     const response = await fetch(`${baseUrl}/api/projects/`, {
       headers: {
         "Content-Type": "application/json",
@@ -75,15 +75,15 @@ function EmptyState() {
     <div className="text-center py-12">
       <div className="max-w-md mx-auto">
         <HiOutlineDocumentAdd className="mx-auto h-12 w-12 text-gray-400" />
-        <h3 className="mt-4 text-lg font-medium text-gray-900">No projects yet</h3>
+        <h3 className="mt-4 text-lg font-medium text-gray-900">
+          No projects yet
+        </h3>
         <p className="mt-2 text-sm text-gray-500">
           Be the first to share your project with the community.
         </p>
         <div className="mt-6">
           <Link href="/projects/add-project">
-            <Button className="bg-primary text-white">
-              Add Your Project
-            </Button>
+            <Button className="bg-primary text-white">Add Your Project</Button>
           </Link>
         </div>
       </div>
@@ -97,7 +97,7 @@ function LoadingState() {
       <div className="space-y-6">
         <div className="h-8 w-48 bg-gray-200 rounded"></div>
         <div className="h-4 w-96 bg-gray-200 rounded"></div>
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
           {[1, 2, 3, 4].map((i) => (
             <div key={i} className="bg-white rounded-lg p-6 space-y-4">
               <div className="h-6 w-3/4 bg-gray-200 rounded"></div>
@@ -115,7 +115,7 @@ export default async function ProjectsPage() {
   const data = await getProjectData();
 
   return (
-    <div className="max-w-7xl mx-auto">
+    <div className="container mx-auto">
       <div className="space-y-6">
         {/* Header */}
         <div className="mb-8">
@@ -130,7 +130,7 @@ export default async function ProjectsPage() {
 
         {/* Client-side filtering and search */}
         <Suspense fallback={<LoadingState />}>
-          {(!data || data.length === 0) ? (
+          {!data || data.length === 0 ? (
             <EmptyState />
           ) : (
             <ProjectsClient projects={data} filterOptions={filterOptions} />

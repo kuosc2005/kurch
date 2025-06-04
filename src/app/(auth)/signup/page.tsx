@@ -100,7 +100,7 @@ export default function LoginPage(): JSX.Element {
   const validateEmailDomain = (email: string): boolean => {
     if (!email) return false;
     return VALID_DOMAINS.some((domain: string) =>
-      email.toLowerCase().endsWith(domain.toLowerCase())
+      email.toLowerCase().endsWith(domain.toLowerCase()),
     );
   };
 
@@ -123,21 +123,21 @@ export default function LoginPage(): JSX.Element {
       isValid = false;
     } else if (!validateEmailDomain(formData.email)) {
       toast.error(
-        `Email must be from one of these domains: ${VALID_DOMAINS.join(", ")}`
+        `Email must be from one of these domains: ${VALID_DOMAINS.join(", ")}`,
       );
       isValid = false;
     }
 
     // Password validation
     const passwordValidation: PasswordValidation = validatePasswordStrength(
-      formData.password
+      formData.password,
     );
     if (!formData.password) {
       toast.error("Password is required");
       isValid = false;
     } else if (!passwordValidation.isValid) {
       toast.error(
-        `Password must have: ${passwordValidation.errors.join(", ")}`
+        `Password must have: ${passwordValidation.errors.join(", ")}`,
       );
       isValid = false;
     }
@@ -181,7 +181,9 @@ export default function LoginPage(): JSX.Element {
       }
 
       toast.success(response.data.message || "Registration successful!");
-      router.push(`/signup/verify?email=${encodeURIComponent(submissionData.email)}`);
+      router.push(
+        `/signup/verify?email=${encodeURIComponent(submissionData.email)}`,
+      );
     } catch (error: any) {
       console.error("Registration error:", error);
 
@@ -203,7 +205,7 @@ export default function LoginPage(): JSX.Element {
   };
 
   const passwordStrength: PasswordValidation = validatePasswordStrength(
-    formData.password
+    formData.password,
   );
   const passwordsMatch: boolean =
     !!formData.password &&
@@ -318,13 +320,13 @@ export default function LoginPage(): JSX.Element {
           {isSubmitting ? "Registering..." : "Register"}
         </button>
 
-        <Divider>or</Divider>
-        <SignInWithButton
-          provider="google"
-          onClick={handleGoogleSignIn}
-          disabled={isGoogleLoading}
-          className="w-full"
-        />
+        {/*  <Divider>or</Divider> */}
+        {/* <SignInWithButton */}
+        {/*   provider="google" */}
+        {/*   onClick={handleGoogleSignIn} */}
+        {/*   disabled={isGoogleLoading} */}
+        {/*   className="w-full" */}
+        {/* /> */}
         <TextLinkToggle
           prompt="Already Have An Account?"
           linkText=" Sign In Here"

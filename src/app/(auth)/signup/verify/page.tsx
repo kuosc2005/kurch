@@ -43,7 +43,9 @@ export default function Page() {
       }
     } catch (error: any) {
       console.error("OTP verification error:", error);
-      const errorMessage = error.response?.data?.message || "Verification failed. Please try again.";
+      const errorMessage =
+        error.response?.data?.message ||
+        "Verification failed. Please try again.";
       toast.error(errorMessage);
     } finally {
       setIsSubmitting(false);
@@ -67,7 +69,7 @@ export default function Page() {
       <div className="flex border border-black rounded-[2px] overflow-hidden bg-white">
         <InputField
           type="text"
-          placeholder="123456"
+          placeholder="Enter OTP"
           value={otp}
           onChange={handleInputChange}
           required
@@ -77,7 +79,7 @@ export default function Page() {
         <Button
           onClick={handleSubmit}
           disabled={isSubmitting}
-          className="bg-teal-700 hover:bg-teal-800 px-4 py-3 text-white flex items-center justify-center border-black border-l"
+          className="bg-teal-700 hover:bg-teal-800  px-4 py-3 text-white flex items-center justify-center border-black border-l"
           aria-label="Submit"
         >
           {isSubmitting ? "Verifying..." : <FaArrowRight size={20} />}

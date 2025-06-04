@@ -43,7 +43,7 @@ const LoginPage: React.FC = () => {
       switch (error) {
         case "ACCOUNT_EXISTS_WITH_PASSWORD":
           toast.error(
-            "An account with this email already exists. Please sign in with your email and password instead."
+            "An account with this email already exists. Please sign in with your email and password instead.",
           );
           break;
         case "USER_CREATION_FAILED":
@@ -54,7 +54,7 @@ const LoginPage: React.FC = () => {
           break;
         case "GOOGLE_SIGNIN_FAILED":
           toast.error(
-            "Unable to sign in with Google. Please try again or use email/password."
+            "Unable to sign in with Google. Please try again or use email/password.",
           );
           break;
         default:
@@ -68,7 +68,7 @@ const LoginPage: React.FC = () => {
   const validateEmailDomain = (email: string): boolean => {
     if (!email) return false;
     return VALID_DOMAINS.some((domain: string) =>
-      email.toLowerCase().endsWith(domain.toLowerCase())
+      email.toLowerCase().endsWith(domain.toLowerCase()),
     );
   };
 
@@ -101,14 +101,18 @@ const LoginPage: React.FC = () => {
         if (response.error === "ACCOUNT_NOT_VERIFIED") {
           // If account is not verified, resend OTP and redirect to verification page
           try {
-            const resendResponse = await axios.post("/api/auth/resend-otp", { email });
+            const resendResponse = await axios.post("/api/auth/resend-otp", {
+              email,
+            });
             if (resendResponse.status === 200) {
               toast.success("A verification code has been sent to your email.");
               router.push(`/signup/verify?email=${encodeURIComponent(email)}`);
             }
           } catch (resendError: any) {
             console.error("Error resending OTP:", resendError);
-            toast.error("Failed to resend verification code. Please try again.");
+            toast.error(
+              "Failed to resend verification code. Please try again.",
+            );
           }
           return;
         }
@@ -117,7 +121,7 @@ const LoginPage: React.FC = () => {
         switch (response.error) {
           case "USER_NOT_FOUND":
             toast.error(
-              "No account found with this email address. Please check your email or sign up."
+              "No account found with this email address. Please check your email or sign up.",
             );
             break;
           case "INVALID_PASSWORD":
@@ -125,12 +129,12 @@ const LoginPage: React.FC = () => {
             break;
           case "USE_GOOGLE_SIGNIN":
             toast.error(
-              "This account was created with Google. Please use 'Sign in with Google' instead."
+              "This account was created with Google. Please use 'Sign in with Google' instead.",
             );
             break;
           case "PASSWORD_RESET_REQUIRED":
             toast.error(
-              "Account setup incomplete. Please reset your password or contact support."
+              "Account setup incomplete. Please reset your password or contact support.",
             );
             break;
           case "EMAIL_PASSWORD_REQUIRED":
@@ -138,13 +142,13 @@ const LoginPage: React.FC = () => {
             break;
           case "DATABASE_ERROR":
             toast.error(
-              "Unable to connect to our servers. Please try again later."
+              "Unable to connect to our servers. Please try again later.",
             );
             break;
           case "CredentialsSignin":
           default:
             toast.error(
-              "Login failed. Please check your credentials and try again."
+              "Login failed. Please check your credentials and try again.",
             );
             break;
         }
@@ -202,15 +206,15 @@ const LoginPage: React.FC = () => {
         </Button>
       </form>
 
-      <Divider> or </Divider>
-
-      <SignInWithButton
-        provider="google"
-        onClick={handleGoogleSignIn}
-        disabled={isGoogleLoading}
-        className="w-full"
-      />
-
+      {/* <Divider> or </Divider> */}
+      {/**/}
+      {/* <SignInWithButton */}
+      {/*   provider="google" */}
+      {/*   onClick={handleGoogleSignIn} */}
+      {/*   disabled={isGoogleLoading} */}
+      {/*   className="w-full" */}
+      {/* /> */}
+      {/**/}
       <div className="mt-6 text-center">
         <TextLinkToggle
           prompt="Don't have an account? "
