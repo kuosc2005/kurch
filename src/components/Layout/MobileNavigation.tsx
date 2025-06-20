@@ -7,9 +7,21 @@ import Image from "next/image";
 const MobileNavigation: React.FC = () => {
   const toggleSidebar = () => {
     const sidebar = document.getElementById("hs-sidebar");
-    if (sidebar) {
-      sidebar.classList.toggle("-translate-x-full");
-      sidebar.classList.toggle("translate-x-0");
+    const overlay = document.getElementById("sidebar-overlay");
+    if (sidebar && overlay) {
+      const isOpen = !sidebar.classList.contains("-translate-x-full");
+
+      if (isOpen) {
+        // Close sidebar
+        sidebar.classList.add("-translate-x-full");
+        sidebar.classList.remove("translate-x-0");
+        overlay.classList.add("hidden");
+      } else {
+        // Open sidebar
+        sidebar.classList.remove("-translate-x-full");
+        sidebar.classList.add("translate-x-0");
+        overlay.classList.remove("hidden");
+      }
     }
   };
 

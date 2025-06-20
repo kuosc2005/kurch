@@ -4,11 +4,13 @@ import { ProfileContent } from "@/components/profile/ProfileContent";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth/authOptions";
 import { headers } from "next/headers";
+import MainContent from "@/components/Layout/MainContent";
 
 async function getRealProfileData(id: string): Promise<ProfileData | null> {
   try {
     const headersList = await headers();
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL || "http://localhost:3000";
+    const baseUrl =
+      process.env.NEXT_PUBLIC_BASE_API_URL || "http://localhost:3000";
 
     const response = await fetch(`${baseUrl}/api/profile/${id}`, {
       headers: {
@@ -81,20 +83,22 @@ export default async function ProfilePage({
   }
 
   return (
-    <div className="max-w-7xl mx-auto">
-      <div className="space-y-6">
-        <ProfileHeader
-          name={realProfileData.name}
-          title={realProfileData.title}
-          department={realProfileData.department}
-          isCurrentUser={isCurrentUser}
-        />
+    <MainContent>
+      <div className="max-w-7xl mx-auto">
+        <div className="space-y-6">
+          <ProfileHeader
+            name={realProfileData.name}
+            title={realProfileData.title}
+            department={realProfileData.department}
+            isCurrentUser={isCurrentUser}
+          />
 
-        <ProfileContent
-          profileData={realProfileData}
-          isCurrentUser={isCurrentUser}
-        />
+          <ProfileContent
+            profileData={realProfileData}
+            isCurrentUser={isCurrentUser}
+          />
+        </div>
       </div>
-    </div>
+    </MainContent>
   );
 }

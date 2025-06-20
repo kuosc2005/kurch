@@ -1,12 +1,36 @@
-import React from "react";
-import { Bell } from "lucide-react";
+"use client";
+import React, { useState, useRef, useEffect } from "react";
+import { Bell, DoorOpenIcon } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import MobileNavigation from "./MobileNavigation";
+import { useSession } from "next-auth/react";
 
 const Header: React.FC = () => {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleLogout = () => {
+    setIsDropdownOpen(false);
+  };
+  const user = useSession();
+
   return (
-    <header className="sticky top-0 inset-x-0 flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full  bg-white border-b border-gray-200 text-sm py-2.5">
+    <header className="fixed top-0 inset-x-0 flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full  bg-white border-b border-gray-200 text-sm py-2.5">
       <nav className="px-4 sm:px-6 flex basis-full items-center w-full mx-auto">
         <MobileNavigation />
 
@@ -34,13 +58,29 @@ const Header: React.FC = () => {
             </button>
 
             {/* User Profile Dropdown */}
-            <div className="relative inline-flex">
+            <div
+              className="relative bg-gray-200 rounded-full  inline-flex"
+              ref={dropdownRef}
+            >
               <button
                 type="button"
-                className="size-9.5 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 focus:outline-hidden"
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                className="size-9.5 cursor-pointer inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 focus:outline-hidden"
               >
-                <span>JD</span>
+                <span>{user.data?.user.name?.charAt(0)}</span>
               </button>
+
+              {isDropdownOpen && (
+                <div className="absolute right-0 top-full mt-1 w-48 bg-white border border-gray-200 rounded-lg shadow-lg py-1 z-50">
+                  <button
+                    onClick={handleLogout}
+                    className="w-full flex items-center cursor-pointer text-left px-4 py-2 text-sm text-red-400 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100"
+                  >
+                    <DoorOpenIcon />
+                    Logout
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>

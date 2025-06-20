@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Header from "@/components/Layout/Header";
 import Sidebar from "@/components/Layout/Sidebar";
-import MainContent from "@/components/Layout/MainContent";
 
 export const metadata: Metadata = {
   title: "KURCH - Academic Research Platform",
@@ -17,7 +16,7 @@ export default function RootLayout({
     <div className="min-h-screen overscroll-none bg-gray-50 ">
       <Header />
       <Sidebar />
-      <MainContent>{children}</MainContent>
+      <main className="w-full lg:ps-64 pt-15">{children}</main>
     </div>
   );
 }

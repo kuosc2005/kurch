@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import { HiOutlineDocumentAdd } from "react-icons/hi";
 import Link from "next/link";
 import { Button } from "@/components/ui/RadixButton";
+import MainContent from "@/components/Layout/MainContent";
 
 const filterOptions = {
   semesters: [
@@ -115,28 +116,30 @@ export default async function ProjectsPage() {
   const data = await getProjectData();
 
   return (
-    <div className="container mx-auto">
-      <div className="space-y-6">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Project Showcase
-          </h1>
-          <p className="text-gray-600">
-            Discover amazing semester projects from students across different
-            fields
-          </p>
-        </div>
+    <MainContent>
+      <div className="container mx-auto">
+        <div className="space-y-6">
+          {/* Header */}
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">
+              Project Showcase
+            </h1>
+            <p className="text-gray-600">
+              Discover amazing semester projects from students across different
+              fields
+            </p>
+          </div>
 
-        {/* Client-side filtering and search */}
-        <Suspense fallback={<LoadingState />}>
-          {!data || data.length === 0 ? (
-            <EmptyState />
-          ) : (
-            <ProjectsClient projects={data} filterOptions={filterOptions} />
-          )}
-        </Suspense>
+          {/* Client-side filtering and search */}
+          <Suspense fallback={<LoadingState />}>
+            {!data || data.length === 0 ? (
+              <EmptyState />
+            ) : (
+              <ProjectsClient projects={data} filterOptions={filterOptions} />
+            )}
+          </Suspense>
+        </div>
       </div>
-    </div>
+    </MainContent>
   );
 }
