@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { Menu } from "lucide-react";
 
@@ -10,11 +11,20 @@ const MobileBreadcrumb: React.FC<MobileBreadcrumbProps> = ({
   title = "KURCH Platform",
   subtitle = "Dashboard",
 }) => {
+  const toggleSidebar = () => {
+    const sidebar = document.getElementById("hs-sidebar");
+    if (sidebar) {
+      sidebar.classList.toggle("-translate-x-full");
+      sidebar.classList.toggle("translate-x-0");
+    }
+  };
+
   return (
     <div className="sticky top-0 inset-x-0 z-20 bg-white border-y border-gray-200 px-4 sm:px-6 lg:px-8 lg:hidden dark:bg-neutral-800 dark:border-neutral-700">
       <div className="flex items-center py-2">
         <button
           type="button"
+          onClick={toggleSidebar}
           className="size-8 flex justify-center items-center gap-x-2 border border-gray-200 text-gray-800 hover:text-gray-500 rounded-lg focus:outline-hidden focus:text-gray-500 dark:border-neutral-700 dark:text-neutral-200 dark:hover:text-neutral-500"
           aria-label="Toggle navigation"
         >

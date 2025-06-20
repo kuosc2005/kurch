@@ -1,22 +1,28 @@
 import React from "react";
-import Link from "next/link";
 import { Bell } from "lucide-react";
+import Link from "next/link";
+import Image from "next/image";
+import MobileNavigation from "./MobileNavigation";
 
 const Header: React.FC = () => {
   return (
-    <header className="sticky top-0 inset-x-0 flex flex-wrap md:justify-start md:flex-nowrap z-48 w-full bg-white border-b border-gray-200 text-sm py-2.5 lg:ps-65">
+    <header className="sticky top-0 inset-x-0 flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full  bg-white border-b border-gray-200 text-sm py-2.5">
       <nav className="px-4 sm:px-6 flex basis-full items-center w-full mx-auto">
-        <div className="me-5 lg:me-0 lg:hidden">
+        <MobileNavigation />
+
+        {/* Desktop Logo */}
+        <div className="hidden lg:flex items-center">
           <Link
             href="/"
-            className="flex-none rounded-md text-xl inline-block font-semibold focus:outline-hidden focus:opacity-80"
+            className="flex items-center space-x-2 rounded-xl text-xl font-semibold focus:outline-hidden focus:opacity-80"
             aria-label="KURCH"
           >
-            <span className="text-blue-600 font-bold">KURCH</span>
+            <Image width={24} height={24} src="/logo.png" alt="KURCH Logo" />
+            <span className="text-primary font-bold text-xl">KURCH</span>
           </Link>
         </div>
 
-        <div className="w-full flex items-center justify-end ms-auto  gap-x-1 md:gap-x-3">
+        <div className="w-full flex items-center justify-end ms-auto gap-x-1 md:gap-x-3">
           {/* Action Buttons */}
           <div className="flex flex-row items-center justify-end gap-1">
             <button
@@ -33,11 +39,7 @@ const Header: React.FC = () => {
                 type="button"
                 className="size-9.5 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 focus:outline-hidden"
               >
-                <img
-                  className="shrink-0 size-9.5 rounded-full"
-                  src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80"
-                  alt="User Avatar"
-                />
+                <span>JD</span>
               </button>
             </div>
           </div>
